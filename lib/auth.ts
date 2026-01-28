@@ -39,6 +39,13 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
+    // 세션 데이터에 유저 ID 포함
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub as string;
+      }
+      return session;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
