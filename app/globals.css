@@ -37,7 +37,13 @@ body {
   background: var(--background);
   color: var(--foreground);
   /* 폰트 이름 오타 수정 및 폰트 스택 최적화 */
-  font-family: 'Montserrat', -apple-system, sans-serif;
+  font-family: 'NanumHuman', 'Montserrat', -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main{
+  font-family: 'NanumHuman', 'Montserrat', -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
