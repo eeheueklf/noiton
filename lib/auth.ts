@@ -19,14 +19,14 @@ export const authOptions: NextAuthOptions = {
 
       // 1. 기존 유저가 있는지 확인
       const { data: existingUser } = await supabase
-        .from("User")
+        .from("users")
         .select("id")
         .eq("email", user.email)
         .single();
 
-      // 2. 신규 유저라면 우리가 만든 SQL 테이블(User)에 삽입
+      // 2. 신규 유저
       if (!existingUser) {
-        const { error } = await supabase.from("User").insert({
+        const { error } = await supabase.from("users").insert({
           id: user.id, // Auth.js가 준 고유 ID
           name: user.name,
           email: user.email,
