@@ -1,27 +1,32 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import { Template } from "@/types/template";
+
 
 export default async function Home() {
   const supabase = await createClient();
 
-  const { data: templates, error } = await supabase
-  .from("templates")
-  .select(`
-    id,
-    title,
-    thumbnail_url,
-    view_count,
-    download_count,
-    creator:users!creator_id (
-      name
-    )
-  `)
-  .order("created_at", { ascending: false })
-  .limit(3);
+  const { data, error } = await supabase
+    .from("templates")
+    .select(`
+      id,
+      title,
+      thumbnail_url,
+      view_count,
+      download_count,
+      creator:users!creator_id (
+        name
+      )
+    `)
+    .order("download_count", { ascending: false })
+    .limit(3);
+
+  const templates = data as unknown as Template[];
 
   if (error) {
     console.error("데이터 로드 실패:", error.message);
   }
+
   return (
     <div className="min-h-screen bg-white text-[#1e1e1e]">
 
@@ -95,7 +100,7 @@ export default async function Home() {
             <div className="flex items-center space-x-3">
               <div className="flex flex-col">
                 <h3 className="text-[15px] font-bold leading-tight group-hover:underline">{template.title}</h3>
-                <p className="text-[13px] text-gray-500 mt-1">{template.creator?.name || "Unknown Creator"}</p>
+                <p className="text-[13px] text-gray-500 mt-1">{template.creator.name || "Unknown Creator"}</p>
               </div>
             </div>
             <div className="flex items-center space-x-1 text-gray-400">
