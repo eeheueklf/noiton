@@ -9,4 +9,5 @@ export interface Template {
   view_count: number;
   download_count: number;
   creator: User; 
+  category_id : string;
 }
