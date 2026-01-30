@@ -1,47 +1,33 @@
 import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
 import { Template } from "@/types/template";
 import { TemplateSection } from "./features/TemplateSection";
+
 export default async function Home() {
   const supabase = await createClient();
 
-    const [popularRes, workRes, perRes, monRes, IntRes] = await Promise.all([
-    supabase
+  const getTemplates = (pathPrefix?: string) => {
+    let query = supabase
       .from("templates")
-      .select(`id, title, thumbnail_url, view_count, download_count, creator:users!creator_id(name)`)
-      .order("download_count", { ascending: false })
-      .limit(3),
-    supabase
-      .from("templates")
-      .select(`id, title, thumbnail_url, view_count, download_count, creator:users!creator_id(name), category:categories!inner(path)`)
-      .like("category.path", "work%")
-      .order("download_count", { ascending: false })
-      .limit(3),
-    supabase
-      .from("templates")
-      .select(`id, title, thumbnail_url, view_count, download_count, creator:users!creator_id(name), category:categories!inner(path)`)
-      .like("category.path", "personal%")
-      .order("download_count", { ascending: false })
-      .limit(3),
-    supabase
-      .from("templates")
-      .select(`id, title, thumbnail_url, view_count, download_count, creator:users!creator_id(name), category:categories!inner(path)`)
-      .like("category.path", "money%")
-      .order("download_count", { ascending: false })
-      .limit(3),
-    supabase
-      .from("templates")
-      .select(`id, title, thumbnail_url, view_count, download_count, creator:users!creator_id(name), category:categories!inner(path)`)
-      .like("category.path", "interest%")
-      .order("download_count", { ascending: false })
-      .limit(3)
+      .select(`id, title, thumbnail_url, view_count, download_count, creator:users!creator_id(name)${pathPrefix ? ', category:categories!inner(path)' : ''}`);
+    if (pathPrefix) {
+      query = query.like("category.path", `${pathPrefix}%`);
+    }
+    return query.order("download_count", { ascending: false }).limit(3);
+  };
+
+  const [popularRes, workRes, perRes, monRes, intRes] = await Promise.all([
+    getTemplates(),
+    getTemplates("work"),
+    getTemplates("personal"),
+    getTemplates("money"),
+    getTemplates("interest"),
   ]);
 
   const popularTemplates = (popularRes.data as unknown as Template[]) || [];
   const workTemplates = (workRes.data as unknown as Template[]) || [];
-  const personalTemplate = (perRes.data as unknown as Template[]) || [];
-  const MoneyTemplate = (monRes.data as unknown as Template[]) || [];
-  const InterestTemplate = (IntRes.data as unknown as Template[]) || [];
+  const personalTemplates = (perRes.data as unknown as Template[]) || [];
+  const moneyTemplates = (monRes.data as unknown as Template[]) || [];
+  const interestTemplates = (intRes.data as unknown as Template[]) || [];
 
   return (
     <div className="min-h-screen bg-white text-[#1e1e1e]">
@@ -79,33 +65,20 @@ export default async function Home() {
         href="/templates?sort=popular" 
       />
 
-      <TemplateSection 
-        title="업무 관련 템플릿" 
-        subtitle="생산성을 높여주는 템플릿" 
-        templates={workTemplates} 
-        href="/templates?category=work" 
-      />
-      
-      <TemplateSection 
-        title="개인 관련 템플릿" 
-        subtitle="생산성을 높여주는 템플릿" 
-        templates={personalTemplate} 
-        href="/templates?category=work" 
-      />
-      
-      <TemplateSection 
-        title="돈 관련 템플릿" 
-        subtitle="생산성을 높여주는 템플릿" 
-        templates={MoneyTemplate} 
-        href="/templates?category=work" 
-      />
-      
-      <TemplateSection 
-        title="취미 관련 템플릿" 
-        subtitle="생산성을 높여주는 템플릿" 
-        templates={InterestTemplate} 
-        href="/templates?category=work" 
-      />
+      {[
+        { title: "업무 관련", subtitle: "생산성을 높여주는", data: workTemplates, path: "work" },
+        { title: "개인 관련", subtitle: "일상을 기록하는", data: personalTemplates, path: "personal" },
+        { title: "자산 관리", subtitle: "똑똑하게 모으는", data: moneyTemplates, path: "money" },
+        { title: "취미/관심", subtitle: "취미 기록용", data: interestTemplates, path: "interest" },
+      ].map((sec) => (
+        <TemplateSection 
+          key={sec.path}
+          title={`${sec.title} 템플릿`} 
+          subtitle={`${sec.subtitle} 템플릿`} 
+          templates={sec.data} 
+          href={`/templates?category=${sec.path}`} 
+        />
+      ))}
     </div>
   );
 }
