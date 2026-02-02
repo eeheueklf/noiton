@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
-import { Template } from "@/types/template";
 import { TemplateSection } from "./features/TemplateSection";
+import { fetchTemplatesByPath } from "@/lib/api/templates";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -12,28 +12,9 @@ export default async function Home() {
     { path: "interest", label: "취미/관심", subtitle: "취미 기록용" },
   ];
 
-  const getTemplates = async (pathPrefix?: string) => {
-    let query = supabase
-      .from("templates")
-      .select(`
-        id, 
-        title, 
-        thumbnail_url, 
-        view_count, 
-        download_count, 
-        creator:users!creator_id(name),
-        category:categories!inner(path)
-      `);
-    if (pathPrefix) {
-      query = query.like("category.path", `${pathPrefix}%`);
-    }
-    const { data } = await query.order("download_count", { ascending: false }).limit(3);
-    return (data as unknown as Template[]) || [];
-  };
-
   const [popularTemplates, ...categoryDataSets] = await Promise.all([
-    getTemplates(),
-    ...CATEGORY_CONFIG.map((cat) => getTemplates(cat.path)),
+    fetchTemplatesByPath(supabase),
+    ...CATEGORY_CONFIG.map((cat) => fetchTemplatesByPath(supabase, cat.path)),
   ]);
 
   return (
