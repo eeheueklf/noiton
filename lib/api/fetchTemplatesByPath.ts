@@ -3,23 +3,29 @@ import { Template } from "@/types/template";
 
 export async function fetchTemplatesByPath(
   supabase: SupabaseClient, 
-  pathPrefix?: string
+  pathPrefix?: string,
+  limit?: number
 ): Promise<Template[]> {
   let query = supabase
-    .from("templates")
-    .select(`
-      id, title, thumbnail_url, view_count, download_count, 
-      creator:users!creator_id(name),
-      category:categories!inner(path)
-    `);
-
+      .from("templates")
+      .select(`
+        id, 
+        title, 
+        thumbnail_url, 
+        view_count, 
+        download_count, 
+        creator:users!creator_id(name),
+        category:categories!inner(path)
+      `);
   if (pathPrefix) {
     query = query.like("category.path", `${pathPrefix}%`);
   }
 
-  const { data, error } = await query
-    .order("download_count", { ascending: false })
-    .limit(3);
+  if(limit){
+    query = query.limit(limit)
+  }
+
+  const { data, error } = await query.order("download_count", { ascending: false })
 
   if (error) {
     console.error("Fetch error:", error);

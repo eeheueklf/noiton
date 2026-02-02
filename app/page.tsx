@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { TemplateSection } from "./features/TemplateSection";
-import { fetchTemplatesByPath } from "@/lib/api/templates";
+import { fetchTemplatesByPath } from "@/lib/api/fetchTemplatesByPath";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -13,8 +13,8 @@ export default async function Home() {
   ];
 
   const [popularTemplates, ...categoryDataSets] = await Promise.all([
-    fetchTemplatesByPath(supabase),
-    ...CATEGORY_CONFIG.map((cat) => fetchTemplatesByPath(supabase, cat.path)),
+    fetchTemplatesByPath(supabase, undefined, 3),
+    ...CATEGORY_CONFIG.map((cat) => fetchTemplatesByPath(supabase, cat.path, 3)),
   ]);
 
   return (
