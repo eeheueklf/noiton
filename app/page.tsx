@@ -5,29 +5,36 @@ import { TemplateSection } from "./features/TemplateSection";
 export default async function Home() {
   const supabase = await createClient();
 
-  const getTemplates = (pathPrefix?: string) => {
+  const CATEGORY_CONFIG = [
+    { path: "work", label: "업무 관련", subtitle: "생산성을 높여주는" },
+    { path: "personal", label: "개인 관련", subtitle: "일상을 기록하는" },
+    { path: "money", label: "자산 관리", subtitle: "똑똑하게 모으는" },
+    { path: "interest", label: "취미/관심", subtitle: "취미 기록용" },
+  ];
+
+  const getTemplates = async (pathPrefix?: string) => {
     let query = supabase
       .from("templates")
-      .select(`id, title, thumbnail_url, view_count, download_count, creator:users!creator_id(name)${pathPrefix ? ', category:categories!inner(path)' : ''}`);
+      .select(`
+        id, 
+        title, 
+        thumbnail_url, 
+        view_count, 
+        download_count, 
+        creator:users!creator_id(name),
+        category:categories!inner(path)
+      `);
     if (pathPrefix) {
       query = query.like("category.path", `${pathPrefix}%`);
     }
-    return query.order("download_count", { ascending: false }).limit(3);
+    const { data } = await query.order("download_count", { ascending: false }).limit(3);
+    return (data as unknown as Template[]) || [];
   };
 
-  const [popularRes, workRes, perRes, monRes, intRes] = await Promise.all([
+  const [popularTemplates, ...categoryDataSets] = await Promise.all([
     getTemplates(),
-    getTemplates("work"),
-    getTemplates("personal"),
-    getTemplates("money"),
-    getTemplates("interest"),
+    ...CATEGORY_CONFIG.map((cat) => getTemplates(cat.path)),
   ]);
-
-  const popularTemplates = (popularRes.data as unknown as Template[]) || [];
-  const workTemplates = (workRes.data as unknown as Template[]) || [];
-  const personalTemplates = (perRes.data as unknown as Template[]) || [];
-  const moneyTemplates = (monRes.data as unknown as Template[]) || [];
-  const interestTemplates = (intRes.data as unknown as Template[]) || [];
 
   return (
     <div className="min-h-screen bg-white text-[#1e1e1e]">
@@ -65,18 +72,13 @@ export default async function Home() {
         href="/templates?sort=popular" 
       />
 
-      {[
-        { title: "업무 관련", subtitle: "생산성을 높여주는", data: workTemplates, path: "work" },
-        { title: "개인 관련", subtitle: "일상을 기록하는", data: personalTemplates, path: "personal" },
-        { title: "자산 관리", subtitle: "똑똑하게 모으는", data: moneyTemplates, path: "money" },
-        { title: "취미/관심", subtitle: "취미 기록용", data: interestTemplates, path: "interest" },
-      ].map((sec) => (
+      {CATEGORY_CONFIG.map((config, index) => (
         <TemplateSection 
-          key={sec.path}
-          title={`${sec.title} 템플릿`} 
-          subtitle={`${sec.subtitle} 템플릿`} 
-          templates={sec.data} 
-          href={`/templates?category=${sec.path}`} 
+          key={config.path}
+          title={`${config.label} 템플릿`} 
+          subtitle={`${config.subtitle} 템플릿`} 
+          templates={categoryDataSets[index]}
+          href={`/templates?category=${config.path}`} 
         />
       ))}
     </div>
