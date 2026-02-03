@@ -15,3 +15,14 @@ export interface Template {
   creator: User; 
   category: Category;
 }
+export interface TemplateDetail {
+  id: string;
+  title: string;
+  slug:string;
+  thumbnail_url: string;
+  view_count: number;
+  download_count: number;
+  description:string;
+  creator: User; 
+  category: Category;
+}
