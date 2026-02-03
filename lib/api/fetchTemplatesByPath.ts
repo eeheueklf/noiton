@@ -10,7 +10,8 @@ export async function fetchTemplatesByPath(
       .from("templates")
       .select(`
         id, 
-        title, 
+        title,
+        slug,
         thumbnail_url, 
         view_count, 
         download_count, 

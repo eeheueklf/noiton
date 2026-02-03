@@ -8,6 +8,7 @@ export interface Category {
 export interface Template {
   id: string;
   title: string;
+  slug:string;
   thumbnail_url: string;
   view_count: number;
   download_count: number;
