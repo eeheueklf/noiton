@@ -3,7 +3,7 @@ import { Template } from "@/types/template";
 export function TemplateCard({ template }: { template: Template }) {
   return (
     <div className="group cursor-pointer">
-      <div className="aspect-[1.78/1] bg-gray-50 rounded-[8px] overflow-hidden mb-4">
+      <div className="border border-gray-200 aspect-[1.78/1] bg-gray-50 rounded-[8px] overflow-hidden mb-4">
         {template.thumbnail_url ? (
           <img src={template.thumbnail_url} alt={template.title} className="object-cover w-full h-full" />
         ) : (

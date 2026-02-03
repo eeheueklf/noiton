@@ -8,7 +8,8 @@ export function CategoryTag({ items }: { items: { name: string; slug: string; pa
         <Link
           key={sub.slug}
           href={`/templates?category=${sub.path}`}
-          className="px-4 py-1.5 rounded-full border border-gray-200 text-sm font-medium text-gray-600 transition-all hover:border-black hover:text-black bg-white active:scale-95"
+          className="px-2 py-1 text-sm font-medium text-gray-600 bg-white
+          rounded hover:border-black hover:text-black hover:bg-gray-100"
         >
           {sub.name}
         </Link>

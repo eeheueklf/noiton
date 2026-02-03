@@ -54,7 +54,7 @@ export default async function TemplatesPage({
 
   return (
     <div className="max-w-[1200px] mx-auto px-6 py-16">
-      <header className="mb-12">
+      <header className="mb-7">
         <CategoryNav items={categoryPath} />
         <h1 className="text-3xl font-bold tracking-tight mb-8">
           {categoryName} 템플릿
@@ -62,7 +62,7 @@ export default async function TemplatesPage({
         <CategoryTag items={subCategories} />
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-12">
         {templates.map((template) => (
           <TemplateCard key={template.id} template={template} />
         ))}
