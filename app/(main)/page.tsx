@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { TemplateSection } from "@/app/features/TemplateSection";
+import { TemplateSection } from "@/app/features/(main)/TemplateSection";
 import { fetchTemplatesByPath } from "@/app/api/fetchTemplatesByPath";
 
 export default async function Home() {

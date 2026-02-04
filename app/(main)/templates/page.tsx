@@ -1,8 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { fetchTemplatesByPath } from "@/app/api/fetchTemplatesByPath";
-import { TemplateCard } from "@/app/features/TemplateCard";
-import { CategoryNav } from "@/app/features/templates/CategoryNav";
-import { CategoryTag } from "@/app/features/templates/CategoryTag";
+import { TemplateCard } from "@/app/features/(main)/TemplateCard";
+import { CategoryNav } from "@/app/features/(main)/templates/CategoryNav";
+import { CategoryTag } from "@/app/features/(main)/templates/CategoryTag";
 
 export default async function TemplatesPage({
   searchParams,
