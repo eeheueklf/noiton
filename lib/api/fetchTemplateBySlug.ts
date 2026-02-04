@@ -15,6 +15,7 @@ export async function fetchTemplateBySlug(
       view_count, 
       download_count,
       description,
+      notion_page_id,
       creator:users!creator_id(name),
       category:categories!inner(path)
     `)

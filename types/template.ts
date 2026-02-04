@@ -23,6 +23,7 @@ export interface TemplateDetail {
   view_count: number;
   download_count: number;
   description:string;
+  notion_page_id:string;
   creator: User; 
   category: Category;
 }
