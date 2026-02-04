@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function NavHeader() {
   const pathname = usePathname();
+  const { data: session, status } = useSession()
 
   const navLinks = [
     { name: "템플릿", href: "/" },
@@ -45,9 +47,15 @@ export default function NavHeader() {
         </div>
 
         <div className="flex items-center gap-2">
+          { session ? (
+          <button onClick={() => signOut()} className="hidden sm:block px-4 py-2 text-[14px] font-medium hover:bg-[#f5f5f5] rounded-lg transition">
+            로그아웃
+          </button>
+          ) : (
           <Link href={'/login'} className="hidden sm:block px-4 py-2 text-[14px] font-medium hover:bg-[#f5f5f5] rounded-lg transition">
             로그인
           </Link>
+          )}
           <button className="px-4 py-2 text-[14px] font-medium bg-black text-white rounded-lg hover:bg-[#2c2c2c] transition shadow-sm">
             업로드
           </button>
