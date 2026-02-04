@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react"; // 상태 관리 추가
+import { useState } from "react";
 import { X, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { createClient } from "@/utils/supabase/client";
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -11,15 +13,45 @@ interface ProfileModalProps {
 }
 
 export default function ProfileModal({ isOpen, onClose, session }: ProfileModalProps) {
-  const [isEditingName, setIsEditingName] = useState(false); // 이름 변경 팝업 상태
+  const { update } = useSession();
+  const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(session?.user?.name || "");
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const supabase = createClient();
+
+  const handleUpdateName = async () => {
+    if (!newName.trim() || newName === session?.user?.name) {
+      setIsEditingName(false);
+      return;
+    }
+
+    setIsUpdating(true);
+    try {
+      const { error } = await supabase
+        .from("users")
+        .update({ name: newName })
+        .eq("id", session.user.id);
+
+      if (error) throw error;
+
+      await update({ name: newName });
+
+      setIsEditingName(false);
+    } catch (err) {
+      console.error(err);
+      alert("이름 업데이트에 실패했습니다.");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div 
-        className="absolute inset-0 bg-black/50 transition-opacity"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
         onClick={isEditingName ? () => setIsEditingName(false) : onClose} 
       />
       
@@ -35,14 +67,15 @@ export default function ProfileModal({ isOpen, onClose, session }: ProfileModalP
           <div className="flex flex-col items-center gap-3">
             <img 
               src={session.user?.image || ""} 
-              className="w-24 h-24 rounded-lg shadow-sm"
+              className="w-24 h-24 rounded-lg shadow-sm object-cover"
               alt="Avatar"
             />
             <div className="flex items-center gap-3">
-                <button className="text-[13px] font-semibold text-blue-600 hover:text-blue-700">사진 변경하기</button>
-                <button className="text-[13px] font-semibold text-grey-400 hover:text-grey-500">제거</button>
-                </div>
+              <button className="text-[13px] font-semibold text-blue-600 hover:text-blue-700">사진 변경하기</button>
+              <button className="text-[13px] font-semibold text-gray-400 hover:text-gray-500">제거</button>
             </div>
+          </div>
+
           <div className="space-y-6">
             <div>
               <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">계정 이메일</label>
@@ -54,7 +87,7 @@ export default function ProfileModal({ isOpen, onClose, session }: ProfileModalP
               <p className="mt-1 text-[15px] text-gray-600 font-medium">{session.user?.name}</p>
               <button 
                 onClick={() => setIsEditingName(true)}
-                className="text-[11px] font-bold text-blue-400 uppercase tracking-wider cursor-pointer"
+                className="text-[11px] font-bold text-blue-400 hover:text-blue-500 uppercase tracking-wider cursor-pointer transition-colors"
               >
                 이름 변경하기
               </button>
@@ -84,7 +117,8 @@ export default function ProfileModal({ isOpen, onClose, session }: ProfileModalP
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 autoFocus
-                className="w-full px-4 py-3 bg-gray-50 border-2 border-transparent focus:border-black rounded-xl outline-none transition-all font-bold text-lg"
+                disabled={isUpdating}
+                className="w-full px-4 py-3 bg-gray-50 border-2 border-transparent focus:border-black rounded-xl outline-none transition-all font-bold text-lg disabled:opacity-50"
                 placeholder="이름을 입력하세요"
               />
               <p className="text-[12px] text-gray-400">서비스 내에서 표시되는 이름입니다.</p>
@@ -93,18 +127,17 @@ export default function ProfileModal({ isOpen, onClose, session }: ProfileModalP
             <div className="flex gap-3">
               <button 
                 onClick={() => setIsEditingName(false)}
-                className="flex-1 py-4 bg-gray-100 font-bold rounded-xl hover:bg-gray-200 transition-colors"
+                disabled={isUpdating}
+                className="flex-1 py-4 bg-gray-100 font-bold rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
               >
                 취소
               </button>
               <button 
-                className="flex-1 py-4 bg-black text-white font-bold rounded-xl hover:bg-zinc-800 transition-colors"
-                onClick={() => {
-                  alert(`${newName}(으)로 변경 시도!`);
-                  setIsEditingName(false);
-                }}
+                disabled={isUpdating}
+                className="flex-1 py-4 bg-black text-white font-bold rounded-xl hover:bg-zinc-800 transition-colors disabled:bg-gray-400"
+                onClick={handleUpdateName}
               >
-                변경 완료
+                {isUpdating ? "변경 중..." : "변경 완료"}
               </button>
             </div>
           </div>

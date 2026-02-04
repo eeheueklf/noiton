@@ -38,13 +38,39 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    // 세션 데이터에 유저 ID 포함
+    
+    async jwt({ token, user, trigger, session }) {
+      // 1. 처음 로그인할 때 DB에서 최신 정보를 가져와 토큰에 저장
+      if (user) {
+        token.id = user.id;
+        
+        // 중요: 구글 이름 대신 DB에 저장된 이름을 가져옵니다.
+        const supabase = await createClient(); // 서버 클라이언트
+        const { data: dbUser } = await supabase
+          .from("users")
+          .select("name")
+          .eq("id", user.id)
+          .single();
+
+        if (dbUser) {
+          token.name = dbUser.name;
+        }
+      }
+
+      // 2. 서비스 이용 중 이름 변경(update) 시 처리 (기존 로직)
+      if (trigger === "update" && session?.name) {
+        token.name = session.name;
+      }
+
+      return token;
+    },
+
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.sub as string;
+        session.user.id = token.id as string;
+        session.user.name = token.name as string; // 토큰에 저장된 (DB에서 온) 이름을 사용
       }
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
 };
