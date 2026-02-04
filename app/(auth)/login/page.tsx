@@ -1,11 +1,20 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Heart, Upload, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
 
   const benefits = [
     { icon: <Heart className="w-5 h-5 text-red-500" />, text: "나만의 템플릿 하트 찜하기" },
@@ -13,30 +22,30 @@ export default function Home() {
     { icon: <CheckCircle2 className="w-5 h-5 text-yellow-500" />, text: "무제한 다운로드 혜택" },
   ];
 
+  if (status === "loading" || status === "authenticated") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
   return (
     <>
-    <header className="h-[64px] sticky top-0 z-[50]" 
+    <header className="h-[64px] sticky top-0 z-[50] bg-gray-50" 
         style={{ fontFamily: 'NanumHuman, sans-serif' }}>
       <div className="max-w-full h-full mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-            {/* 로고 */}
-            <Link href="/" className="flex items-center gap-2">
-                <span className="font-bold text-[24px] tracking-tighter hidden sm:block" 
-                        style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    NOITON
-                </span>
-            </Link>
-        </div>
+          {/* 로고 */}
+          <Link href="/" className="flex items-center gap-2">
+              <span className="font-bold text-[24px] tracking-tighter hidden sm:block" 
+                      style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  NOITON
+              </span>
+          </Link>
       </div>
     </header>
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
-      <main className="p-8 bg-white shadow rounded-3xl border border-gray-100 text-center w-full max-w-md">
-        {status === "loading" ? (
-          <div className="py-10 text-gray-400 animate-pulse">인증 정보 확인 중...</div>
-        ) : session ? (
-          <div className="flex flex-col items-center py-4">
-          </div>
-        ) : (
+    
+    <div className="flex flex-col items-center justify-center pt-30 bg-gray-50">
+      <main className="p-8 bg-white shadow rounded-3xl border border-gray-100 text-center w-full max-w-sm">
           <div className="flex flex-col items-center">
             <div className="mb-6">
               <h1 className="text-2xl font-extrabold text-gray-900 mb-2">시작하기</h1>
@@ -55,7 +64,7 @@ export default function Home() {
             </div>
 
             <button
-              onClick={() => signIn("google")}
+              onClick={() => signIn("google", { callbackUrl: "/" })}
               className="flex items-center justify-center w-full gap-3 px-4 py-4 bg-white border-2 border-gray-100 rounded-2xl shadow-sm text-gray-700 font-bold hover:border-indigo-200 hover:bg-indigo-50/30 transition-all active:scale-[0.97]"
             >
               <svg width="20" height="20" viewBox="0 0 24 24">
@@ -71,7 +80,6 @@ export default function Home() {
               로그인 시 이용약관 및 개인정보 처리방침에 동의하게 됩니다.
             </p>
           </div>
-        )}
       </main>
     </div>
     </>
