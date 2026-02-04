@@ -1,4 +1,4 @@
-import NavHeader from "@/app/features/NavHeader";
+import NavHeader from "@/app/features/(header)/NavHeader";
 import { Providers } from "@/app/features/providers";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
