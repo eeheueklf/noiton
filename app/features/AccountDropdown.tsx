@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { Heart, Upload, CheckCircle2 } from "lucide-react";
+import { Heart, Upload } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, LogOut, User } from "lucide-react";
 import { signOut } from "next-auth/react";
+import ProfileModal from "./ProfileModal";
 
 
 export default function AccountDropDown({ session }: { session: any }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,6 +24,7 @@ export default function AccountDropDown({ session }: { session: any }) {
   }, []);
 
   return (
+    <>
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -40,7 +43,10 @@ export default function AccountDropDown({ session }: { session: any }) {
             <p className="text-[12px] text-gray-500 italic">내 계정</p>
             <p className="text-[14px] font-bold truncate">{session.user?.email}</p>
           </div>
-          <button className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors">
+          <button 
+              onClick={() => { setIsModalOpen(true); setIsOpen(false); }}
+              className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors"
+            >
             <User className="w-4 h-4" /> 프로필 설정
           </button>
           <Link href={'/heart'} className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors">
@@ -58,5 +64,11 @@ export default function AccountDropDown({ session }: { session: any }) {
         </div>
       )}
     </div>
+    <ProfileModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        session={session} 
+      />
+      </>
   );
 }
