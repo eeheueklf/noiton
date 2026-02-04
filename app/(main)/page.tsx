@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { TemplateSection } from "@/app/features/TemplateSection";
-import { fetchTemplatesByPath } from "@/lib/api/fetchTemplatesByPath";
+import { fetchTemplatesByPath } from "@/app/api/fetchTemplatesByPath";
 
 export default async function Home() {
   const supabase = await createClient();

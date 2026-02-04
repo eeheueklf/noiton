@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
-import { fetchTemplateBySlug } from "@/lib/api/fetchTemplateBySlug";
+import { fetchTemplateBySlug } from "@/app/api/fetchTemplateBySlug";
 import Link from "next/link";
 
 export default async function TemplateDetail({ 
