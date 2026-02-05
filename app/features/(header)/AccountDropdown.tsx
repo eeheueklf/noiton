@@ -49,10 +49,10 @@ export default function AccountDropDown({ session }: { session: any }) {
             >
             <User className="w-4 h-4" /> 프로필 설정
           </button>
-          <Link href={'/heart'} className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors">
+          <Link href={'/like'} className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors">
               <Heart className="w-4 h-4" /> 찜한 템플릿
           </Link>
-          <Link href={'/heart'} className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors">
+          <Link href={'/mytemplate'} className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors">
               <Upload className="w-4 h-4" /> 업로드한 템플릿
           </Link>
           <button 

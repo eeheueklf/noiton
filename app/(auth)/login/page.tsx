@@ -30,7 +30,7 @@ export default function Home() {
     );
   }
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
     <header className="h-[64px] sticky top-0 z-[50] bg-gray-50" 
         style={{ fontFamily: 'NanumHuman, sans-serif' }}>
       <div className="max-w-full h-full mx-auto px-6 flex items-center justify-between">
@@ -65,7 +65,7 @@ export default function Home() {
 
             <button
               onClick={() => signIn("google", { callbackUrl: "/" })}
-              className="flex items-center justify-center w-full gap-3 px-4 py-4 bg-white border-2 border-gray-100 rounded-2xl shadow-sm text-gray-700 font-bold hover:border-indigo-200 hover:bg-indigo-50/30 transition-all active:scale-[0.97]"
+              className="flex items-center justify-center w-full gap-3 px-4 py-4 bg-white border-1 border-gray-100 rounded-2xl shadow-sm text-gray-700 font-bold hover:border-indigo-200 hover:bg-indigo-50/30 transition-all active:scale-[0.97]"
             >
               <svg width="20" height="20" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -82,6 +82,6 @@ export default function Home() {
           </div>
       </main>
     </div>
-    </>
+    </div>
   );
 }
