@@ -52,9 +52,6 @@ export default function AccountDropDown({ session }: { session: any }) {
           <Link href={'/like'} className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors">
               <Heart className="w-4 h-4" /> 찜한 템플릿
           </Link>
-          <Link href={'/mytemplate'} className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-gray-700 hover:bg-[#f5f5f5] transition-colors">
-              <Upload className="w-4 h-4" /> 업로드한 템플릿
-          </Link>
           <button 
             onClick={() => signOut()}
             className="w-full flex items-center gap-2 px-4 py-2 text-[14px] text-red-600 hover:bg-[#f5f5f5] transition-colors"

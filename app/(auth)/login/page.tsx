@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { Heart, Upload, CheckCircle2 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

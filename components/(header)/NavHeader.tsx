@@ -41,7 +41,6 @@ export default function NavHeader() {
             ))}
           </nav>
         </div>
-
         <div className="flex items-center gap-2">
           {session ? (
             <AccountDropDown session={session}/>
@@ -50,9 +49,9 @@ export default function NavHeader() {
               로그인
             </Link>
           )}
-          <button className="px-4 py-2 text-[14px] font-medium bg-black text-white rounded-lg hover:bg-[#2c2c2c] transition shadow-sm">
+          <Link href={'/upload'} className="px-4 py-2 text-[14px] font-medium bg-black text-white rounded-lg hover:bg-[#2c2c2c] transition shadow-sm">
             업로드
-          </button>
+          </Link>
         </div>
       </div>
     </header>
