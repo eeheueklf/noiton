@@ -5,8 +5,8 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { createClient } from "@/utils/supabase/client";
-import EditNameModal from "@/app/features/(header)/EditNameModal";
-import DeleteAccount from "@/app/features/(header)/DeleteAccount";
+import EditNameModal from "@/components/(header)/EditNameModal";
+import DeleteAccount from "@/components/(header)/DeleteAccount";
 
 
 export default function ProfileModal({ isOpen, onClose, session }: { isOpen: boolean; onClose: () => void; session: any }) {

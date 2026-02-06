@@ -1,5 +1,5 @@
 import { Template } from "@/types/template";
-import { TemplateCard } from "@/app/features/(main)/TemplateCard";
+import { TemplateCard } from "@/components/(main)/TemplateCard";
 
 export function TemplateSection({ title, templates }: { title: string; templates: Template[];}) {
   return (

@@ -2,9 +2,9 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 
-import { fetchTemplateBySlug } from "@/app/api/fetchTemplateBySlug";
-import LikeButton from "@/app/features/(main)/templates/[slug]/LikeButton";
-import { fetchLikeBySlug } from "@/app/api/fetchLikeBySlug";
+import { fetchTemplateBySlug } from "@/features/fetchTemplateBySlug";
+import LikeButton from "@/components/(main)/templates/[slug]/LikeButton";
+import { fetchLikeBySlug } from "@/features/fetchLikeBySlug";
 
 export default async function TemplateDetail({ 
     params 

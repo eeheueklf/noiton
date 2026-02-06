@@ -1,10 +1,10 @@
 import { createClient } from "@/utils/supabase/server";
-import { TemplateSection } from "@/app/features/(main)/like/TemplateSection";
+import { TemplateSection } from "@/components/(main)/like/TemplateSection";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { fetchLikeByUser } from "@/app/api/fetchLikeByUser";
+import { fetchLikeByUser } from "@/features/fetchLikeByUser";
 
 export default async function Like() {
     const session = await getServerSession(authOptions);
