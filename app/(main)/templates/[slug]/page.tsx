@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { fetchTemplateBySlug } from "@/app/api/fetchTemplateBySlug";
 import LikeButton from "@/app/features/(main)/templates/[slug]/LikeButton";
-import { fetchLike } from "@/app/api/fetchLike";
+import { fetchLikeBySlug } from "@/app/api/fetchLikeBySlug";
 
 export default async function TemplateDetail({ 
     params 
@@ -14,10 +14,12 @@ export default async function TemplateDetail({
     const { slug } = await params;
     const supabase = await createClient();
 
-    const template = await fetchTemplateBySlug(supabase, slug)
+    const [template, initialIsLiked] = await Promise.all([
+        fetchTemplateBySlug(supabase, slug),
+        fetchLikeBySlug(supabase, slug)
+    ])
     if (!template)  return notFound();
     
-    const initialIsLiked = await fetchLike(supabase, template.id);
 
     return (
     <div className="max-w-[1200px] mx-auto px-6 py-16">
