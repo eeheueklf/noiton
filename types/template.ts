@@ -10,6 +10,7 @@ export interface Template {
   title: string;
   slug:string;
   thumbnail_url: string;
+  created_at: string;
   view_count: number;
   download_count: number;
   creator: User; 

@@ -12,15 +12,13 @@ export async function fetchTemplatesByUser(
         title,
         slug,
         thumbnail_url, 
-        created_at,
-        view_count, 
-        download_count, 
-        category:categories!inner(path),
+        created_at
     `)
     .eq("creator_id", userId);
 
     console.log(data)
 
+    console.log(userId)
     if (error) {
         console.error("Error fetching liked templates:", error);
         return [];
