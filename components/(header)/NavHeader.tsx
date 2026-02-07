@@ -49,7 +49,7 @@ export default function NavHeader() {
               로그인
             </Link>
           )}
-          <Link href={'/upload'} className="px-4 py-2 text-[14px] font-medium bg-black text-white rounded-lg hover:bg-[#2c2c2c] transition shadow-sm">
+          <Link href={'/upload'} className="px-4 py-2 text-[14px] font-medium bg-gray-800 text-white rounded-lg hover:bg-[#2c2c2c] transition shadow-sm">
             업로드
           </Link>
         </div>

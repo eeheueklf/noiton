@@ -18,6 +18,7 @@ export default async function Like() {
     
     return (
         <div className="min-h-screen bg-white text-[#1e1e1e]">
+
         <TemplateSection 
             title="업로드한 템플릿" 
             templates={myTemplates} 
