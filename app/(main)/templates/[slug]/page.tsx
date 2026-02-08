@@ -14,6 +14,7 @@ export default async function TemplateDetail({
     const { slug } = await params;
     const supabase = await createClient();
 
+    console.log(slug)
     const [template, initialIsLiked] = await Promise.all([
         fetchTemplateBySlug(supabase, slug),
         fetchLikeBySlug(supabase, slug)

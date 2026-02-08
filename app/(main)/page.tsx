@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { TemplateSection } from "@/components/(main)/TemplateSection";
 import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
+import { HomeSearchBar } from "@/components/(main)/search/SearchBar";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -36,12 +37,7 @@ export default async function Home() {
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
               </svg>
             </div>
-            <input 
-              type="text" 
-              placeholder="어떤 템플릿을 찾으시나요?" 
-              className="w-full py-[10px] pl-12 pr-6 rounded-[30px] border-none bg-[#f5f5f5] text-[15px] shadow-sm outline-none transition-all
-              focus:ring-1 focus:ring-black" 
-            />
+            <HomeSearchBar />
           </div>
         </div>
       </section>

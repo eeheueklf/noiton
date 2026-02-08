@@ -12,7 +12,6 @@ export async function fetchTemplateBySlug(
       title,
       slug,
       thumbnail_url, 
-      view_count, 
       download_count,
       description,
       notion_page_id,
