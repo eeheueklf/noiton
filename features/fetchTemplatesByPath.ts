@@ -4,7 +4,8 @@ import { Template } from "@/types/template";
 export async function fetchTemplatesByPath(
   supabase: SupabaseClient, 
   pathPrefix?: string,
-  limit?: number
+  limit?: number,
+  sort="popular",
 ): Promise<Template[]> {
   let query = supabase
       .from("templates")
@@ -13,8 +14,8 @@ export async function fetchTemplatesByPath(
         title,
         slug,
         thumbnail_url, 
-        view_count, 
-        download_count, 
+        download_count,
+        created_at,
         creator:users!creator_id(name),
         category:categories!inner(path)
       `);
@@ -22,11 +23,17 @@ export async function fetchTemplatesByPath(
     query = query.like("category.path", `${pathPrefix}%`);
   }
 
+  if (sort === "popular") {
+    query = query.order("download_count", { ascending: false });
+  } else {
+    query = query.order("created_at", { ascending: false });
+  }
+
   if(limit){
     query = query.limit(limit)
   }
 
-  const { data, error } = await query.order("download_count", { ascending: false })
+  const { data, error } = await query;
 
   if (error) {
     console.error("Fetch error:", error);

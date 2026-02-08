@@ -7,10 +7,11 @@ import { CategoryTag } from "@/components/(main)/templates/CategoryTag";
 export default async function TemplatesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; sort?:string }>;
 }) {
   const supabase = await createClient();
-  const { category: currentPath } = await searchParams;
+  const { category: currentPath, sort:sortParam} = await searchParams;
+  const currentSort = sortParam || "popular";
 
   let categoryName = "모든";
   let subCategories: any[] = [];
@@ -50,15 +51,35 @@ export default async function TemplatesPage({
     subCategories = rootCategory || [];
   }
 
-  const templates = await fetchTemplatesByPath(supabase, currentPath);
+  const templates = await fetchTemplatesByPath(supabase, currentPath, undefined, currentSort);
 
   return (
     <div className="max-w-[1200px] mx-auto px-6 py-16">
-      <header className="mb-7">
+            <header className="mb-7">
         <CategoryNav items={categoryPath} />
-        <h1 className="text-3xl font-bold tracking-tight mb-8">
-          {categoryName} 템플릿
-        </h1>
+        
+        <div className="flex items-end justify-between mb-8">
+          <h1 className="text-3xl font-bold tracking-tight">
+            {categoryName} 템플릿
+          </h1>
+          
+          <div className="flex gap-4 text-sm font-medium text-gray-500">
+            <a 
+              href={`?category=${currentPath || ""}&sort=latest`}
+              className={`${currentSort === 'latest' ? 'text-black font-bold' : 'hover:text-black'}`}
+            >
+              최신순
+            </a>
+            <span className="text-gray-300">|</span>
+            <a 
+              href={`?category=${currentPath || ""}&sort=popular`}
+              className={`${currentSort === 'popular' ? 'text-black font-bold' : 'hover:text-black'}`}
+            >
+              인기순
+            </a>
+          </div>
+        </div>
+
         <CategoryTag items={subCategories} />
       </header>
 
