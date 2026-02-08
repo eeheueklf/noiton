@@ -12,7 +12,6 @@ export async function fetchLikeByUser(
         title,
         slug,
         thumbnail_url, 
-        view_count, 
         download_count, 
         creator:users!creator_id(name),
         category:categories!inner(path),
