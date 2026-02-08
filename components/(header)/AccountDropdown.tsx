@@ -5,7 +5,7 @@ import { Heart, Upload } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, LogOut, User } from "lucide-react";
 import { signOut } from "next-auth/react";
-import ProfileModal from "@/components/(header)/ProfileModal";
+import ProfileModal from "@/components/(header)/Profile/ProfileModal";
 
 
 export default function AccountDropDown({ session }: { session: any }) {

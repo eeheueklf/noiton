@@ -57,18 +57,24 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      // 2. 서비스 이용 중 이름 변경(update) 시 처리 (기존 로직)
+      // (update) 시 처리
       if (trigger === "update" && session?.name) {
         token.name = session.name;
+      }
+
+      if (trigger === "update" && session?.image) {
+        token.image = session.image;
       }
 
       return token;
     },
 
+    
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.name = token.name as string; // 토큰에 저장된 (DB에서 온) 이름을 사용
+        session.user.name = token.name as string;
+        session.user.image = token.image as string;
       }
       return session;
     },

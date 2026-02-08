@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { createClient } from "@/utils/supabase/client";
-import EditNameModal from "@/components/(header)/EditNameModal";
-import DeleteAccount from "@/components/(header)/DeleteAccount";
+import EditNameModal from "@/components/(header)/Profile/EditNameModal";
+import DeleteAccount from "@/components/(header)/Profile/DeleteAccount";
+import ImageUploader from "@/components/(header)/Profile/ImageUploader";
 
 
 export default function ProfileModal({ isOpen, onClose, session }: { isOpen: boolean; onClose: () => void; session: any }) {
@@ -15,12 +15,24 @@ export default function ProfileModal({ isOpen, onClose, session }: { isOpen: boo
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const supabase = createClient();
 
+  const handleImageUpdate = async (newUrl: string | null) => {
+    try {
+      const { error } = await supabase
+        .from("users")
+        .update({ image: newUrl })
+        .eq("id", session.user.id);
+
+      if (error) throw error;
+      await update({ image: newUrl });
+    } catch (err) {
+      alert("업데이트 실패");
+    }
+  };
   const handleNameUpdate = async (newName: string) => {
     if (!newName.trim() || newName === session?.user?.name) {
       setIsEditingName(false);
       return;
     }
-
     try {
       const { error } = await supabase
         .from("users")
@@ -54,14 +66,10 @@ export default function ProfileModal({ isOpen, onClose, session }: { isOpen: boo
         </div>
         
         <div className="p-6 space-y-8">
-          <div className="flex flex-col items-center gap-3">
-            <img src={session.user?.image || ""} className="w-24 h-24 rounded-lg shadow-sm object-cover" alt="Avatar" />
-            <div className="flex items-center gap-3">
-              <button className="text-[13px] font-semibold text-blue-600 hover:text-blue-700">사진 변경하기</button>
-              <button className="text-[13px] font-semibold text-gray-400 hover:text-gray-500">제거</button>
-            </div>
-          </div>
-
+          <ImageUploader
+            currentImage={session.user?.image}
+            userId={session.user.id}
+            onUpdate={handleImageUpdate}/>
           <div className="space-y-6">
             <div>
               <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">계정 이메일</label>
