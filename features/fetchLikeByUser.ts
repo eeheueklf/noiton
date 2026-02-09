@@ -15,7 +15,8 @@ export async function fetchLikeByUser(
         download_count, 
         creator:users!creator_id(name),
         category:categories!inner(path),
-        likes!inner(user_id) 
+        likes!inner(user_id),
+        likes_count:likes(count)
     `)
     .eq("likes.user_id", userId);
 
