@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { TemplateSection } from "@/components/(main)/TemplateSection";
+import { TemplateSection } from "@/components/common/TemplateSection";
 import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
 import { HomeSearchBar } from "@/components/(main)/search/SearchBar";
 
@@ -46,7 +46,8 @@ export default async function Home() {
         title="인기 템플릿" 
         subtitle="가장 많이 찾는 템플릿" 
         templates={popularTemplates} 
-        href="/templates?sort=popular" 
+        href="/templates?sort=popular"
+        isMore={true}
       />
 
       {CATEGORY_CONFIG.map((config, index) => (

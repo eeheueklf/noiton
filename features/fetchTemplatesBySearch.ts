@@ -10,7 +10,8 @@ export async function fetchTemplatesBySearch(
     .select(`
       id, title, slug, thumbnail_url, download_count, created_at,
       creator:users!creator_id(name),
-      category:categories!inner(name, path)
+      category:categories!inner(name, path),
+      likes_count:likes(count)
     `)
     .ilike("title", `%${query}%`); 
 

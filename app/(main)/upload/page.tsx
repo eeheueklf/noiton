@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { TemplateSection } from "@/components/(main)/upload/TemplateSection";
+import { TemplateSection } from "@/components/common/TemplateSection";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -22,6 +22,8 @@ export default async function Like() {
         <TemplateSection 
             title="업로드한 템플릿" 
             templates={myTemplates} 
+            showAddCard={true}
+            isDashboard={true}
         />
         </div>
     );
