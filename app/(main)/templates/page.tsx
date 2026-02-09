@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
-import { TemplateCard } from "@/components/(main)/TemplateCard";
+import { TemplateCard } from "@/components/common/TemplateCard";
 import { CategoryNav } from "@/components/(main)/templates/CategoryNav";
 import { CategoryTag } from "@/components/(main)/templates/CategoryTag";
 

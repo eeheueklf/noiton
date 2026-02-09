@@ -1,5 +1,5 @@
 import { Template } from "@/types/template";
-import { TemplateCard } from "@/components/(main)/TemplateCard";
+import { TemplateCard } from "@/components/common/TemplateCard";
 import { Image as ImageIcon, ChevronRight } from "lucide-react";
 
 export function TemplateSection({ title, templates }: { title: string; templates: Template[];}) {

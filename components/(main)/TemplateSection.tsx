@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TemplateCard } from "./TemplateCard";
+import { TemplateCard } from "@/components/common/TemplateCard";
 import { Template } from "@/types/template";
 
 export function TemplateSection({ title, subtitle, templates, href }: { title: string; subtitle: string; templates: Template[]; href: string }) {

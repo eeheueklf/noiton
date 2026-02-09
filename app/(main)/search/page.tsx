@@ -1,4 +1,4 @@
-import { TemplateCard } from "@/components/(main)/search/TemplateCard";
+import { TemplateCard } from "@/components/common/TemplateCard";
 import { fetchTemplatesBySearch } from "@/features/fetchTemplatesBySearch";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";

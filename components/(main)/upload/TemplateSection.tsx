@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Template } from "@/types/template";
-import { TemplateCard } from "@/components/(main)/upload/TemplateCard";
+import { TemplateCard } from "@/components/common/TemplateCard";
 import { Image as ImageIcon, ChevronRight } from "lucide-react";
 
 export function TemplateSection({ title, templates }: { title: string; templates: Template[];}) {
@@ -37,7 +37,7 @@ export function TemplateSection({ title, templates }: { title: string; templates
         </Link>
 
         {templates.map((template) => (
-          <TemplateCard key={template.id} template={template} />
+          <TemplateCard key={template.id} template={template} showDate={true}/>
         ))}
       </div>
     </section>
