@@ -3,6 +3,7 @@ import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
 import { TemplateCard } from "@/components/common/TemplateCard";
 import { CategoryNav } from "@/components/(main)/templates/CategoryNav";
 import { CategoryTag } from "@/components/(main)/templates/CategoryTag";
+import { TemplateSort } from "@/components/(main)/templates/TemplateSort";
 
 export default async function TemplatesPage({
   searchParams,
@@ -54,32 +55,10 @@ export default async function TemplatesPage({
   const templates = await fetchTemplatesByPath(supabase, currentPath, undefined, currentSort);
 
   return (
-    <div className="max-w-[1200px] mx-auto px-6 py-16">
-            <header className="mb-7">
+    <section className="max-w-[1200px] mx-auto px-6 py-16">
+      <header className="mb-7">
         <CategoryNav items={categoryPath} />
-        
-        <div className="flex items-end justify-between mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">
-            {categoryName} 템플릿
-          </h1>
-          
-          <div className="flex gap-4 text-sm font-medium text-gray-500">
-            <a 
-              href={`?category=${currentPath || ""}&sort=latest`}
-              className={`${currentSort === 'latest' ? 'text-black font-bold' : 'hover:text-black'}`}
-            >
-              최신순
-            </a>
-            <span className="text-gray-300">|</span>
-            <a 
-              href={`?category=${currentPath || ""}&sort=popular`}
-              className={`${currentSort === 'popular' ? 'text-black font-bold' : 'hover:text-black'}`}
-            >
-              인기순
-            </a>
-          </div>
-        </div>
-
+        <TemplateSort categoryName={categoryName} currentPath={currentPath} currentSort={currentSort}/>
         <CategoryTag items={subCategories} />
       </header>
 
@@ -88,6 +67,6 @@ export default async function TemplatesPage({
           <TemplateCard key={template.id} template={template} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }
