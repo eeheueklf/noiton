@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { TemplateSection } from "@/components/common/TemplateSection";
+import { TemplatePreview } from "@/components/(main)/TemplatePreview";
 import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
 import { HomeSearchBar } from "@/components/(main)/search/SearchBar";
 
@@ -42,22 +42,20 @@ export default async function Home() {
         </div>
       </section>
 
-      <TemplateSection 
+      <TemplatePreview 
         title="인기 템플릿" 
         subtitle="가장 많이 찾는 템플릿" 
         templates={popularTemplates} 
         href="/templates?sort=popular"
-        isMore={true}
       />
 
       {CATEGORY_CONFIG.map((config, index) => (
-        <TemplateSection 
+        <TemplatePreview 
           key={config.path}
           title={`${config.label} 템플릿`} 
           subtitle={`${config.subtitle} 템플릿`} 
           templates={categoryDataSets[index]}
-          href={`/templates?category=${config.path}`} 
-        isMore={true}
+          href={`/templates?category=${config.path}`}
         />
       ))}
     </div>

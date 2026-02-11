@@ -27,7 +27,6 @@ export default async function Upload({ searchParams }: UploadPageProps) {
             title="업로드한" 
             templates={myTemplates} 
             showAddCard={true}
-            isDashboard={true}
             currentPath="/upload"
             currentSort={sort}
         />

@@ -23,13 +23,12 @@ export default async function Like({ searchParams }: LikePageProps) {
 
     return (
         <div className="min-h-screen bg-white text-[#1e1e1e]">
-            <TemplateSection 
-                title="찜한" 
-                templates={myLikeTemplates}
-                isDashboard={true}
-                currentPath="/like"
-                currentSort={sort}
-            />
+        <TemplateSection 
+            title="찜한" 
+            templates={myLikeTemplates}
+            currentPath="/like"
+            currentSort={sort}
+        />
         </div>
     );
 }
