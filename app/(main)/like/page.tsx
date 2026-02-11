@@ -6,23 +6,30 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { fetchLikeByUser } from "@/features/fetchLikeByUser";
 
-export default async function Like() {
+interface LikePageProps {
+  searchParams: Promise<{ sort?: string }>;
+}
+export default async function Like({ searchParams }: LikePageProps) {
     const session = await getServerSession(authOptions);
-    const supabase = await createClient();
     
     if (!session) {
         redirect("/login");
     }
-
-    const myLikeTemplates = await fetchLikeByUser(supabase, session.user.id)
     
+    const supabase = await createClient();
+    const { sort = "popular" } = await searchParams;
+
+    const myLikeTemplates = await fetchLikeByUser(supabase, session.user.id, sort);
+
     return (
         <div className="min-h-screen bg-white text-[#1e1e1e]">
-        <TemplateSection 
-            title="찜한 템플릿" 
-            templates={myLikeTemplates}
-            isDashboard={true}
-        />
+            <TemplateSection 
+                title="찜한" 
+                templates={myLikeTemplates}
+                isDashboard={true}
+                currentPath="/like"
+                currentSort={sort}
+            />
         </div>
     );
 }

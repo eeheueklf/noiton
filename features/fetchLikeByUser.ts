@@ -1,11 +1,13 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Template } from "@/types/template";
+import { withTemplateSort } from "@/utils/sort";
 
 export async function fetchLikeByUser(
   supabase: SupabaseClient, 
   userId: string,
+  sort="popular",
 ): Promise<Template[]> {
-    const { data, error } = await supabase
+    let query = supabase
     .from("templates")
     .select(`
         id, 
@@ -20,11 +22,13 @@ export async function fetchLikeByUser(
     `)
     .eq("likes.user_id", userId);
 
+    query = withTemplateSort(query, sort);
+    const { data, error } = await query;
 
     if (error) {
-        console.error("Error fetching liked templates:", error);
+        console.error("Fetch error:", error);
         return [];
-    }  
+    }
 
   return (data?.map((item: any) => ({
         ...item,

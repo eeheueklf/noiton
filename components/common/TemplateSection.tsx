@@ -5,6 +5,7 @@ import { Image as ImageIcon, ChevronRight } from "lucide-react";
 import { Plus } from "lucide-react";
 import { CategoryNav } from "@/components/(main)/templates/CategoryNav";
 import { TemplateGrid } from "@/components/common/TemplateGrid";
+import { TemplateSort } from "@/components/(main)/templates/TemplateSort";
 
 interface TemplateSectionProps{
     title:string;
@@ -14,7 +15,9 @@ interface TemplateSectionProps{
     isDashboard?:boolean;
     showAddCard?:boolean;
     isMore?:boolean;
-    breadcrumbItems?: { name: string; path: string }[]; 
+    breadcrumbItems?: { name: string; path: string }[];
+    currentPath?: string;
+    currentSort?: string; 
 }
 
 export function TemplateSection({
@@ -26,15 +29,19 @@ export function TemplateSection({
     showAddCard,
     isMore,
     breadcrumbItems,
+    currentPath = "/",
+    currentSort = "latest",
 }: TemplateSectionProps){
   const defaultDashboardItems = [{ name: title, path: "#" }];
+  const resultCount = templates.length;
 
   return (
     <section className="max-w-[1200px] mx-auto px-6 py-16">
         {isDashboard && (
             <header className="mb-7">
               <CategoryNav items={breadcrumbItems || defaultDashboardItems}/>
-              <h1 className="text-3xl font-bold">{title}</h1>
+              <TemplateSort categoryName={title} currentPath={currentPath} currentSort={currentSort}/>
+              {/* <h1 className="text-3xl font-bold">{title}</h1> */}
             </header>
         )}
         {isMore && (

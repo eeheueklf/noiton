@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Template } from "@/types/template";
+import { withTemplateSort } from "@/utils/sort";
 
 export async function fetchTemplatesByPath(
   supabase: SupabaseClient, 
@@ -23,12 +24,8 @@ export async function fetchTemplatesByPath(
     query = query.like("category.path", `${pathPrefix}%`);
   }
 
-  if (sort === "popular") {
-    query = query.order("download_count", { ascending: false });
-  } else {
-    query = query.order("created_at", { ascending: false });
-  }
-
+  query = withTemplateSort(query, sort);
+  
   if(limit){
     query = query.limit(limit)
   }

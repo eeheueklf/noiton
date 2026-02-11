@@ -57,6 +57,7 @@ export default async function Home() {
           subtitle={`${config.subtitle} 템플릿`} 
           templates={categoryDataSets[index]}
           href={`/templates?category=${config.path}`} 
+        isMore={true}
         />
       ))}
     </div>
