@@ -19,7 +19,7 @@ export default async function Like({ searchParams }: LikePageProps) {
 
     return (
         <TemplateSection 
-            title="찜한" 
+            title="찜한 템플릿" 
             templates={myLikeTemplates}
         />
     );

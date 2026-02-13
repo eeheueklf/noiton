@@ -6,7 +6,7 @@ interface CategoryItem {
 }
 
 export async function fetchCategory(supabase: any, currentPath?: string) {
-  let categoryName = "모든";
+  let categoryName = "모든 템플릿";
   let subCategories: any[] = [];
   let categoryPath: any[] = [];
 

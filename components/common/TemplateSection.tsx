@@ -9,6 +9,8 @@ interface TemplateSectionProps{
     templates:Template[];
     showAddCard?:boolean;
     breadcrumbItems?: { name: string; path: string }[];
+    cols?:2 | 3;
+  children?: React.ReactNode; 
 }
 
 export function TemplateSection({
@@ -16,19 +18,22 @@ export function TemplateSection({
     templates,
     showAddCard,
     breadcrumbItems,
+    cols = 3,
+    children,
 }: TemplateSectionProps){
-  const defaultDashboardItems = [{ name: title, path: "#" }];
+  const defaultPath = [{ name: title, path: "#" }];
 
   return (
     <section className="max-w-[1200px] mx-auto px-6 py-16">
       <header className="mb-7">
-        <CategoryNav items={breadcrumbItems || defaultDashboardItems}/>
+        <CategoryNav items={breadcrumbItems || defaultPath}/>
         <div className="flex items-end justify-between mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">{title} 템플릿</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
           <TemplateSort/>
         </div>
+        {children}
       </header>
-      <TemplateGrid templates={templates} showAddCard={showAddCard}/>
+      <TemplateGrid templates={templates} showAddCard={showAddCard} cols={cols}/>
     </section>
   );
 }

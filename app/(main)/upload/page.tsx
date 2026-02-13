@@ -20,7 +20,7 @@ export default async function Upload({ searchParams }: UploadPageProps) {
     
     return (
         <TemplateSection 
-            title="업로드한" 
+            title="업로드한 템플릿" 
             templates={myTemplates} 
             showAddCard={true}
         />
