@@ -1,3 +1,10 @@
+interface CategoryItem {
+  id: number;
+  name: string;
+  path: string;
+  slug?: string;
+}
+
 export async function fetchCategory(supabase: any, currentPath?: string) {
   let categoryName = "모든";
   let subCategories: any[] = [];
@@ -14,8 +21,8 @@ export async function fetchCategory(supabase: any, currentPath?: string) {
 
     if (pathData) {
       categoryPath = pathsToFetch
-        .map(p => pathData.find(d => d.path === p))
-        .filter(Boolean);
+        .map(p => (pathData as CategoryItem[]).find(d => d.path === p))
+        .filter((item): item is CategoryItem => Boolean(item));
       
       const currentCat = categoryPath[categoryPath.length - 1];
       categoryName = currentCat.name;
