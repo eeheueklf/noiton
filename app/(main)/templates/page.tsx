@@ -1,9 +1,10 @@
 import { createClient } from "@/utils/supabase/server";
 import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
-import { TemplateCard } from "@/components/common/TemplateCard";
 import { CategoryNav } from "@/components/(main)/templates/CategoryNav";
 import { CategoryTag } from "@/components/(main)/templates/CategoryTag";
-import { TemplateSort } from "@/components/(main)/templates/TemplateSort";
+import { TemplateSort } from "@/components/common/TemplateSort";
+import { fetchCategory } from "@/features/fetchCategory";
+import { TemplateGrid } from "@/components/common/TemplateGrid";
 
 export default async function TemplatesPage({
   searchParams,
@@ -14,59 +15,27 @@ export default async function TemplatesPage({
   const { category: currentPath, sort:sortParam} = await searchParams;
   const currentSort = sortParam || "popular";
 
-  let categoryName = "모든";
-  let subCategories: any[] = [];
-  let categoryPath: any[] = [];
-
-  if (currentPath) {
-    const segments = currentPath.split('.');
-    const pathsToFetch = segments.map((_, i) => segments.slice(0, i + 1).join('.'));
-
-    const { data: pathData } = await supabase
-      .from("categories")
-      .select("id, name, path")
-      .in("path", pathsToFetch);
-
-    if (pathData) {
-      categoryPath = pathsToFetch
-        .map(p => pathData.find(d => d.path === p))
-        .filter(Boolean);
-      
-      const currentCat = categoryPath[categoryPath.length - 1];
-      categoryName = currentCat.name;
-
-      const { data: lowCategories } = await supabase
-        .from("categories")
-        .select("name, slug, path")
-        .eq("parent_id", currentCat.id)
-        .order("name");
-      
-      subCategories = lowCategories || [];
-    }
-  } else {
-    const { data: rootCategory } = await supabase
-      .from("categories")
-      .select("name, slug, path")
-      .eq("level", 1)
-      .order("name");
-    subCategories = rootCategory || [];
-  }
-
-  const templates = await fetchTemplatesByPath(supabase, currentPath, undefined, currentSort);
+  const [categoryInfo, templates] = await Promise.all([
+    fetchCategory(supabase, currentPath),
+    fetchTemplatesByPath(supabase, currentPath, undefined, currentSort)
+  ]);
+  
+  const { categoryName, subCategories, categoryPath } = categoryInfo;
 
   return (
     <section className="max-w-[1200px] mx-auto px-6 py-16">
       <header className="mb-7">
         <CategoryNav items={categoryPath} />
-        <TemplateSort categoryName={categoryName} currentPath={currentPath} currentSort={currentSort}/>
+        <div className="flex items-end justify-between mb-8">
+          <h1 className="text-3xl font-bold tracking-tight">
+            {categoryName} 템플릿
+          </h1>
+          <TemplateSort/>
+        </div>
         <CategoryTag items={subCategories} />
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-12">
-        {templates.map((template) => (
-          <TemplateCard key={template.id} template={template} />
-        ))}
-      </div>
+      <TemplateGrid templates={templates} cols={2}/>
     </section>
   );
 }

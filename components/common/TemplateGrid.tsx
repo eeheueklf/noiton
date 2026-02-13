@@ -5,16 +5,25 @@ import { Plus } from "lucide-react";
 
 interface TemplateGridProps{
   templates:Template[];
+  cols?:2|3;
   showAddCard?:boolean;
+  keyword?:string;
 }
 
 export function TemplateGrid({
-    templates,
-    showAddCard=false,
+  templates,
+  cols=3,
+  showAddCard=false,
+  keyword,
 }: TemplateGridProps){
 
+  const gridStyles = {
+    2: "grid-cols-1 sm:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+  };
+
   return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+      <div className={`grid ${gridStyles[cols]} gap-x-8 gap-y-12`}>
         {/* 새 템플릿 추가 카드 */}
         {showAddCard && (
           <Link href="/upload/new"className="group flex flex-col gap-4 p-4 rounded-xl border-2 border-dashed border-gray-200 hover:border-blue-500 hover:bg-blue-50/30 transition-all cursor-pointer">
@@ -28,7 +37,12 @@ export function TemplateGrid({
           </Link>
         )}
         {templates.map((template) => (
-          <TemplateCard key={template.id} template={template} showDate={showAddCard} />
+          <TemplateCard 
+            key={template.id} 
+            template={template} 
+            showDate={showAddCard}
+            keyword={keyword} 
+          />
         ))}
       </div>
   );
