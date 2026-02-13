@@ -11,25 +11,18 @@ interface UploadPageProps {
 }
 export default async function Upload({ searchParams }: UploadPageProps) {
     const session = await getServerSession(authOptions);
-    
     if (!session) {
         redirect("/login");
     }
-    
     const supabase = await createClient();
     const { sort = "popular" } = await searchParams;
-
     const myTemplates = await fetchTemplatesByUser(supabase, session.user.id, sort)
     
     return (
-        <div className="min-h-screen bg-white text-[#1e1e1e]">
         <TemplateSection 
             title="업로드한" 
             templates={myTemplates} 
             showAddCard={true}
-            currentPath="/upload"
-            currentSort={sort}
         />
-        </div>
     );
 }
