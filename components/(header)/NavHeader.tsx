@@ -4,10 +4,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import AccountDropDown from "./AccountDropdown";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/store/slices/userSlice";
+import { useEffect } from "react";
 
 export default function NavHeader() {
   const pathname = usePathname();
+
+  const dispatch = useDispatch();
   const { data: session } = useSession();
+
+  useEffect(() =>{
+    if(session?.user){
+      dispatch(setCredentials({
+        id: session.user.id,
+        name: session.user.name,
+        email: session.user.email,
+        image: session.user.image,
+      }));
+    } 
+  },[session, dispatch])
 
   const navLinks = [
     { name: "템플릿", href: "/" },
@@ -20,7 +36,6 @@ export default function NavHeader() {
     <header className="h-[64px] border-b border-[#e6e6e6] bg-white sticky top-0 z-[50]">
       <div className="max-w-[1200px] h-full mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          {/* 로고 */}
           <Link href="/" className="flex items-center gap-2">
             <span className="font-bold text-[24px] tracking-tighter hidden sm:block" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               NOITON
@@ -43,7 +58,7 @@ export default function NavHeader() {
         </div>
         <div className="flex items-center gap-2">
           {session ? (
-            <AccountDropDown session={session}/>
+            <AccountDropDown/>
           ) : (
             <Link href={'/login'} className="px-4 py-2 text-[14px] font-medium hover:bg-[#f5f5f5] rounded-lg transition">
               로그인

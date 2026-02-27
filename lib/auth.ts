@@ -43,26 +43,26 @@ export const authOptions: NextAuthOptions = {
       // 1. 처음 로그인할 때 DB에서 최신 정보를 가져와 토큰에 저장
       if (user) {
         token.id = user.id;
+        token.email = user.email;
         
-        // 중요: 구글 이름 대신 DB에 저장된 이름을 가져옵니다.
-        const supabase = await createClient(); // 서버 클라이언트
+        const supabase = await createClient();
         const { data: dbUser } = await supabase
           .from("users")
-          .select("name")
+          .select("name, image")
           .eq("id", user.id)
           .single();
 
         if (dbUser) {
           token.name = dbUser.name;
+          token.image = dbUser.image;
         }
       }
 
-      // (update) 시 처리
       if (trigger === "update" && session?.name) {
         token.name = session.name;
       }
 
-      if (trigger === "update" && session?.image) {
+      if (trigger === "update" && "image" in session) { 
         token.image = session.image;
       }
 
@@ -74,6 +74,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
+        session.user.email = token.email as string;
         session.user.image = token.image as string;
       }
       return session;
