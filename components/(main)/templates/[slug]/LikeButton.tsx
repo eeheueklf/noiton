@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useSession } from "next-auth/react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 interface LikeButtonProps {
   templateId: string;
@@ -10,52 +11,69 @@ interface LikeButtonProps {
 }
 
 export default function LikeButton({ templateId, initialIsLiked }: LikeButtonProps) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const supabase = createClient();
-  const [isLiked, setIsLiked] = useState(initialIsLiked);
-  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-  useEffect(() => {
-    setIsLiked(initialIsLiked);
-  }, [initialIsLiked]);
+  const { data: isLiked } = useQuery({
+    queryKey: ["templateLike", templateId],
+    queryFn: async () => {
+      if (!session?.user?.id) return false;
+      const { data } = await supabase
+        .from("likes")
+        .select("*")
+        .match({ user_id: session.user.id, template_id: templateId })
+        .maybeSingle();
+      return !!data;
+    },
+    initialData: initialIsLiked,
+  });
 
-  const toggleLike = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!session?.user?.id) return;
-    if (isLoading) return;
-
-    setIsLoading(true);
-    const isCurrentlyLiked = isLiked;
-    
-    setIsLiked(!isCurrentlyLiked);
-
-    try {
-      if (isCurrentlyLiked) {
-        const { error } = await supabase
-          .from("likes")
-          .delete()
-          .match({ user_id: session.user.id, template_id: templateId });
-        
-        if (error) throw error;
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (nextLiked: boolean) => {
+      const userId = session?.user?.id;
+      if (!userId) throw new Error("로그인이 필요합니다.");
+      
+      if (nextLiked) {
+        return await supabase.from("likes").insert({ user_id: userId, template_id: templateId });
       } else {
-        const { error } = await supabase
-          .from("likes")
-          .insert({ user_id: session.user.id, template_id: templateId });
-        
-        if (error && error.code !== '23505') throw error; 
+        return await supabase.from("likes").delete().match({ user_id: userId, template_id: templateId });
       }
-    } catch (error) {
-      console.error("좋아요 에러", error);
-      setIsLiked(isCurrentlyLiked);
-    } finally {
-      setIsLoading(false);
+    },
+    onMutate: async (nextLiked) => {
+      await queryClient.cancelQueries({ queryKey: ["templateLike", templateId] });
+      const previousValue = isLiked;
+      queryClient.setQueryData(["templateLike", templateId], nextLiked);
+      return { previousValue };
+    },
+    onError: (err, nextLiked, context) => {
+      queryClient.setQueryData(["templateLike", templateId], context?.previousValue);
+      alert(err instanceof Error ? err.message : "오류가 발생했습니다.");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["templateLike", templateId] });
+      queryClient.invalidateQueries({ queryKey: ["myLikeTemplates"] });
+      router.refresh(); 
+    },
+  });
+
+  const toggleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    if (status === "unauthenticated") {
+      alert("로그인이 필요한 서비스입니다.");
+      return;
     }
+    
+    if (isPending) return;
+    mutate(!isLiked);
   };
 
   return (
     <button
       onClick={toggleLike}
-      disabled={isLoading}
+      disabled={isPending}
       className={`inline-flex items-center justify-center bg-white px-3.5 py-3.5 rounded-md font-bold hover:bg-gray-100 shadow-sm ${
         isLiked 
           ? "text-red-400" 
