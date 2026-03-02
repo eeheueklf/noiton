@@ -5,9 +5,9 @@ import { withTemplateSort } from "@/utils/sort";
 export async function fetchLikeByUser(
   supabase: SupabaseClient, 
   userId: string,
-  sort="popular",
+  sort = "popular"
 ): Promise<Template[]> {
-    let query = supabase
+  let query = supabase
     .from("templates")
     .select(`
         id, 
@@ -22,17 +22,18 @@ export async function fetchLikeByUser(
     `)
     .eq("likes.user_id", userId);
 
-    query = withTemplateSort(query, sort);
-    const { data, error } = await query;
+  query = withTemplateSort(query, sort);
 
-    if (error) {
-        console.error("Fetch error:", error);
-        return [];
-    }
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Fetch error:", error);
+    return [];
+  }
 
   return (data?.map((item: any) => ({
-        ...item,
-        creator: Array.isArray(item.creator) ? item.creator[0] : item.creator,
-        category: Array.isArray(item.category) ? item.category[0] : item.category,
-    })) || []) as Template[];
+    ...item,
+    creator: Array.isArray(item.creator) ? item.creator[0] : item.creator,
+    category: Array.isArray(item.category) ? item.category[0] : item.category,
+  })) || []) as Template[];
 }
