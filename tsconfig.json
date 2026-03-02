@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "components/(main)/templates/[slug]/LikeButtonIcon.tsx"  ],
   "exclude": ["node_modules"]
 }

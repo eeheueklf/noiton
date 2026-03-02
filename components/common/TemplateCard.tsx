@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Template } from "@/types/template";
 import { formatRelativeDate } from "@/lib/utils"
 import { HighlightText } from "@/components/(main)/search/HighlightText";
-import { Heart, Copy } from "lucide-react";
-
+import { Copy } from "lucide-react";
+import { LikeStatus } from "../(main)/LikeStatus";
 
 interface TemplateCardProps {
     template: Template;
@@ -41,7 +41,8 @@ export function TemplateCard({
           <p className="text-[13px] text-gray-500 mt-1">{subText}</p> 
         </div>
         <div className="flex items-center space-x-1 text-gray-400">
-          <Heart size={14} /><span className="text-[13px] font-medium">{template.likes_count?.[0].count || 0}</span>
+          <LikeStatus templateId={template.id}/>
+            <span className="text-[13px] font-medium">{template.likes_count?.[0].count || 0}</span>
           <Copy size={14} /><span className="text-[13px] font-medium">{template.download_count || 0}</span>
         </div>
       </div>
