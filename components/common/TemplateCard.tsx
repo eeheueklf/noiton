@@ -24,7 +24,6 @@ export function TemplateCard({
   const subText = showDate 
     ? formatRelativeDate(template.created_at) 
     : template.creator.name || "알 수 없음";
-  console.log('template', template)
   return (
     <div className="group cursor-pointer">        
       <Link href={`/template/${template.slug}`}>

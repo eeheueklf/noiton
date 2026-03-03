@@ -41,8 +41,6 @@ const removeProfileImage = async (currentImageUrl: string | null) => {
       if (lastPart) {
         const fileName = lastPart.split("?")[0]; 
         
-        console.log("삭제 시도 파일명:", fileName);
-        
         const { error } = await supabase.storage
           .from("profile-images")
           .remove([fileName]);

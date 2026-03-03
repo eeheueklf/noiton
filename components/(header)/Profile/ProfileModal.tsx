@@ -49,8 +49,6 @@ export default function ProfileModal({ isOpen, onClose }: { isOpen: boolean; onC
     try {
       await removeProfileImage(userInfo.image ?? null); 
       await updateImage(null); 
-      
-      console.log("DB 업데이트까지 완료!");
     } catch (err) {
       console.error("제거 중 에러 발생:", err);
     } finally {

@@ -172,12 +172,13 @@ export default function NewTemplatePage() {
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-gray-700">썸네일 이미지</label>
+            <p className="text-xs text-gray-400">16:9 비율의 이미지를 준비해 주세요.</p>
             <input 
               type="file" accept="image/*" className="hidden" 
               ref={fileInputRef} onChange={handleImageUpload} 
             />
             {formData.thumbnail_url ? (
-              <div className="relative w-full aspect-[3/2] rounded-xl overflow-hidden border border-gray-200 group">
+              <div className="relative w-[600px] aspect-[1.78/1] rounded-xl overflow-hidden border border-gray-200 group">
                 <img src={formData.thumbnail_url} alt="Preview" className="w-full h-full object-cover" />
                 <button
                   type="button"

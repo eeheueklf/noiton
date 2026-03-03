@@ -5,8 +5,6 @@ interface Props {
 
 export function HighlightText({ text, keyword }: Props) {
   
-    console.log('keyword', keyword)
-  
     if (!keyword.trim()) return <>{text}</>;
   const parts = text.split(new RegExp(`(${keyword})`, "gi"));
 
