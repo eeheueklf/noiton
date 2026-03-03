@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { createClient } from "@/utils/supabase/client";
-import LikeButtonIcon from "@/components/(main)/templates/[slug]/LikeButtonIcon";
+import LikeButtonIcon from "@/components/(main)/template/LikeButtonIcon";
 
 export function LikeStatus({ templateId }: { templateId: string }) {
   const { data: session, status } = useSession();

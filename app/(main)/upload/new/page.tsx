@@ -137,7 +137,7 @@ export default function NewTemplatePage() {
             <p className="text-xs text-gray-400">사이트에 등록되는 링크입니다</p>
             {/* 중복 제거해야됨 */}
             <div className="flex items-center gap-2">
-              <span className="text-gray-400 text-sm">noiton.com/templates/</span>
+              <span className="text-gray-400 text-sm">noiton.com/template/</span>
               <input
                 type="text"
                 className="flex-1 px-3 py-1.5 rounded border border-gray-200 text-sm bg-gray-50 outline-none"

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { fetchTemplateBySlug } from "@/features/fetchTemplateBySlug";
 import { fetchLikeBySlug } from "@/features/fetchLikeBySlug";
-import LikeWrapper from "@/components/(main)/templates/[slug]/LikeWrapper";
+import LikeWrapper from "@/components/(main)/template/LikeWrapper";
 
 export default async function TemplateDetail({ 
     params 
@@ -47,7 +47,7 @@ export default async function TemplateDetail({
         <div className="mb-12">
             <div className="border border-gray-200 aspect-[1.78/1] bg-gray-50 rounded-xl overflow-hidden shadow-sm">
                 <img 
-                    src={template.thumbnail_url} 
+                    src={template.thumbnail_url || "/no-img.png"} 
                     alt={template.title} 
                     className="object-cover w-full h-full" 
                 />
