@@ -22,7 +22,7 @@ export default async function TemplateDetail({
     
 
     return (
-    <div className="max-w-[1200px] mx-auto px-6 py-16">
+    <div className="max-w-[1200px] w-full mx-auto px-6 py-16">
         <header className="mb-7">
             <div className="flex items-start justify-between px-1">
                 <div className="flex flex-col">

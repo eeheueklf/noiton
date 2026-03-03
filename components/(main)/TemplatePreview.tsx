@@ -16,7 +16,7 @@ export function TemplatePreview({
     href,
 }: TemplatePreviewProps){
   return (
-    <section className="max-w-[1200px] mx-auto px-6 py-16">
+    <section className="max-w-[1200px] w-full mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
             <h2 className="text-[20px] font-bold tracking-tight">{title}</h2>

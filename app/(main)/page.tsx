@@ -7,8 +7,9 @@ export default async function Home() {
   const supabase = await createClient();
 
   const CATEGORY_CONFIG = [
-    { path: "work", label: "업무 관련", subtitle: "생산성을 높여주는" },
     { path: "personal", label: "개인 관련", subtitle: "일상을 기록하는" },
+    { path: "education", label: "학업 관련", subtitle: "효율적으로 관리하는" },
+    { path: "work", label: "업무 관련", subtitle: "생산성을 높여주는" },
     { path: "money", label: "자산 관리", subtitle: "똑똑하게 모으는" },
     { path: "interest", label: "취미/관심", subtitle: "취미 기록용" },
   ];
