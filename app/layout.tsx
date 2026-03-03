@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
   verification:{
-    google: "google-site-verification=9o-XkIRvwtMu57Q-oQTUsmLMuT7z3rXF42QvVy4HpWU"
+    google: "9o-XkIRvwtMu57Q-oQTUsmLMuT7z3rXF42QvVy4HpWU"
   },
 };
 
