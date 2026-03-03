@@ -16,7 +16,8 @@ export async function fetchTemplatesByUser(
         thumbnail_url, 
         created_at,
         download_count,
-        likes_count:likes(count)
+        popular_score,
+        likes_count
     `)
     .eq("creator_id", userId);
 

@@ -11,8 +11,9 @@ export interface Template {
   slug:string;
   thumbnail_url: string;
   created_at: string;
-  likes_count: { count: number }[]; 
+  likes_count: number; 
   download_count: number;
+  popular_score:number;
   creator: User; 
   category: Category;
 }
@@ -21,8 +22,9 @@ export interface TemplateDetail {
   title: string;
   slug:string;
   thumbnail_url: string;
-  likes_count: { count: number }[]; 
+  likes_count: number; 
   download_count: number;
+  popular_score:number;
   description:string;
   notion_page_id:string;
   creator: User; 

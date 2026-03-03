@@ -10,10 +10,9 @@ export async function fetchTemplatesBySearch(
   let query = supabase
     .from("templates")
     .select(`
-      id, title, slug, thumbnail_url, download_count, created_at,
+      id, title, slug, thumbnail_url, download_count, created_at, likes_count, popular_score,
       creator:users!creator_id(name),
-      category:categories!inner(name, path),
-      likes_count:likes(count)
+      category:categories!inner(name, path)
     `)
     .ilike("title", `%${keyword}%`); 
 

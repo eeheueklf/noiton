@@ -24,7 +24,7 @@ export function TemplateCard({
   const subText = showDate 
     ? formatRelativeDate(template.created_at) 
     : template.creator.name || "알 수 없음";
-
+  console.log('template', template)
   return (
     <div className="group cursor-pointer">        
       <Link href={`/template/${template.slug}`}>
@@ -42,7 +42,7 @@ export function TemplateCard({
         </div>
         <div className="flex items-center space-x-1 text-gray-400">
           <LikeStatus templateId={template.id}/>
-            <span className="text-[13px] font-medium">{template.likes_count?.[0].count || 0}</span>
+            <span className="text-[13px] font-medium">{template.likes_count || 0}</span>
           <Copy size={14} /><span className="text-[13px] font-medium">{template.download_count || 0}</span>
         </div>
       </div>

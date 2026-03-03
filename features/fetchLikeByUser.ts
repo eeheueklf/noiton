@@ -14,11 +14,11 @@ export async function fetchLikeByUser(
         title,
         slug,
         thumbnail_url, 
-        download_count, 
+        download_count,
+        popular_score,
         creator:users!creator_id(name),
         category:categories!inner(path),
-        likes!inner(user_id),
-        likes_count:likes(count)
+        likes!inner(user_id)
     `)
     .eq("likes.user_id", userId);
 

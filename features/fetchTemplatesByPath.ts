@@ -16,9 +16,10 @@ export async function fetchTemplatesByPath(
         slug,
         thumbnail_url, 
         download_count,
+        likes_count,
+        popular_score,
         creator:users!creator_id(name),
-        category:categories!inner(path), 
-        likes_count:likes(count)
+        category:categories!inner(path)
       `);
 
   if (pathPrefix) {
