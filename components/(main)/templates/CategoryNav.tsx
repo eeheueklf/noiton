@@ -13,7 +13,7 @@ export function CategoryNav({ items }: { items: { name: string; path: string }[]
             </svg>
           </span>
           <Link 
-            href={`/templates?category=${bc.path}`}
+            href={`/templates/${bc.path}`}
             className={`hover:text-black transition-colors ${
               index === items.length - 1 ? "text-black font-medium" : ""
             }`}

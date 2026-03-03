@@ -38,7 +38,7 @@ export default function NavHeader() {
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
             <span className="font-bold text-[24px] tracking-tighter hidden sm:block" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              NOITON
+              Noiton
             </span>
           </Link>
 

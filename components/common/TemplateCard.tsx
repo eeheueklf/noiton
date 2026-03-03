@@ -27,7 +27,7 @@ export function TemplateCard({
 
   return (
     <div className="group cursor-pointer">        
-      <Link href={`/templates/${template.slug}`}>
+      <Link href={`/template/${template.slug}`}>
         <div className="border border-gray-200 aspect-[1.78/1] bg-gray-50 rounded-[8px] overflow-hidden mb-4">
           <img src={template.thumbnail_url} alt={template.title} className="object-cover w-full h-full" />
         </div>

@@ -24,7 +24,7 @@ export function TemplateSection({
   const defaultPath = [{ name: title, path: "#" }];
 
   return (
-    <section className="max-w-[1200px] mx-auto px-6 py-16">
+    <section className="max-w-[1200px] w-full mx-auto px-6 py-16">
       <header className="mb-7">
         <CategoryNav items={breadcrumbItems || defaultPath}/>
         <div className="flex items-end justify-between mb-8">
