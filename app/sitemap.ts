@@ -3,15 +3,26 @@ import { createClient } from '@/utils/supabase/server';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = await createClient();
-  const domain = "https://noitoner.vercel.app/"; // 👈 실제 배포할 도메인 주소로 변경하세요.
+  const domain = "https://noitoner.vercel.app";
 
-  const { data: templates } = await supabase
-    .from('templates')
-    .select('slug, created_at');
+  const [templatesRes, categoriesRes] = await Promise.all([
+    supabase.from('templates').select('slug, created_at'),
+    supabase.from('categories').select('path')
+  ]);
+
+  const templates = templatesRes.data;
+  const categories = categoriesRes.data;
 
   const templateUrls = templates?.map((t) => ({
-    url: `${domain}/templates/${t.slug}`,
+    url: `${domain}/template/${t.slug}`,
     lastModified: new Date(t.created_at),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7, 
+  })) || [];
+
+  const categoryUrls = categories?.map((cat) => ({
+    url: `${domain}/templates/${cat.path}`, 
+    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   })) || [];
@@ -23,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily' as const,
       priority: 1.0,
     },
+    ...categoryUrls,
     ...templateUrls,
   ];
 }
