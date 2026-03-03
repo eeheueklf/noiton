@@ -35,11 +35,11 @@ export default async function TemplatesPage({
     >
     <CategoryTag items={subCategories} currentPath={currentPath}/>
     {templates.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-          <p className="text-lg font-medium">아직 등록된 템플릿이 없어요.</p>
-          <p className="text-sm">다른 카테고리를 확인해보시겠어요?</p>
-        </div>
-      )}
+      <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+        <p className="text-lg font-medium">아직 등록된 템플릿이 없어요.</p>
+        <p className="text-sm">다른 카테고리를 확인해보시겠어요?</p>
+      </div>
+    )}
     </TemplateSection>
   );
 }
