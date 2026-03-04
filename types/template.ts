@@ -17,16 +17,7 @@ export interface Template {
   creator: User; 
   category: Category;
 }
-export interface TemplateDetail {
-  id: string;
-  title: string;
-  slug:string;
-  thumbnail_url: string;
-  likes_count: number; 
-  download_count: number;
-  popular_score:number;
+export interface TemplateDetail extends Template{
   description:string;
   notion_page_id:string;
-  creator: User; 
-  category: Category;
 }
