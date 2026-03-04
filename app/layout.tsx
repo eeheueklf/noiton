@@ -1,4 +1,5 @@
 import "./globals.css";
+import localFont from 'next/font/local'
 import { Providers } from "@/components/providers";
 import { Metadata } from "next"; 
 
@@ -28,10 +29,27 @@ export const metadata: Metadata = {
   },
 };
 
+const nanumHuman = localFont({
+  src: [
+    { path: '../public/font/NanumHumanRegular.ttf', weight: '400' },
+    { path: '../public/font/NanumHumanBold.ttf', weight: '700' },
+  ],
+  variable: '--font-nanum',
+  display: 'swap',
+})
+
+const Montserrat = localFont({
+  src: [
+    { path: '../public/font/Montserrat-VariableFont_wght.ttf'},
+  ],
+  variable: '--font-mont',
+  display: 'swap',
+})
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className="antialiased text-[#1e1e1e]">
+      <body className={`${nanumHuman.className} ${nanumHuman.variable}  ${Montserrat.variable} antialiased text-[#1e1e1e]`}>
           <Providers>
             {children}
           </Providers> 

@@ -37,7 +37,7 @@ export default function NavHeader() {
       <div className="max-w-[1200px] h-full mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
-            <span className="font-bold text-[24px] tracking-tighter hidden sm:block" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <span className="font-bold text-[24px] tracking-tighter hidden sm:block font-[family-name:var(--font-mont)]">
               Noiton
             </span>
           </Link>
