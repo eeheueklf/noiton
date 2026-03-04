@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from 'next/image'
 import { Template } from "@/types/template";
 import { formatRelativeDate } from "@/lib/utils"
 import { HighlightText } from "@/components/(main)/search/HighlightText";
@@ -27,8 +28,14 @@ export function TemplateCard({
   return (
     <div className="group cursor-pointer">        
       <Link href={`/template/${template.slug}`}>
-        <div className="border border-gray-200 aspect-[1.78/1] bg-gray-50 rounded-[8px] overflow-hidden mb-4">
-          <img src={template.thumbnail_url || "/no-img.png"} alt={template.title} className="object-cover w-full h-full" />
+        <div className="relative border border-gray-200 aspect-[1.78/1] bg-gray-50 rounded-[8px] overflow-hidden mb-4">
+          <Image 
+            src={template.thumbnail_url || "/no-img.png"} 
+            alt={template.title} 
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
+            className="object-cover transition-transform duration-300 hover:scale-105"
+          />
         </div>
       </Link>
 
