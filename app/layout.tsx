@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   description: "업무, 자산 관리, 취미까지 삶의 질을 높여주는 노션 템플릿을 만나보세요.",
   keywords: ["노션", "노션 템플릿", "Notion", "생산성", "가계부", "다이어리"],
   authors: [{ name: "uk" }],
+  other: {
+    "site_name" : "Noiton",
+  },
   openGraph: {
     title: "노션 템플릿 공유",
     description: "삶을 체계적으로 관리하는 최고의 방법",
@@ -47,8 +50,20 @@ const Montserrat = localFont({
 })
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Noiton",
+    "alternateName": ["노이톤", "Noiton"], 
+    "url": "https://noitoner.vercel.app",
+  };  return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${nanumHuman.className} ${nanumHuman.variable}  ${Montserrat.variable} antialiased text-[#1e1e1e]`}>
           <Providers>
             {children}
