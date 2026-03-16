@@ -36,12 +36,13 @@ export function TemplateGrid({
             </div>
           </Link>
         )}
-        {templates.map((template) => (
+        {templates.map((template, index) => (
           <TemplateCard 
             key={template.id} 
             template={template} 
             showDate={showAddCard}
-            keyword={keyword} 
+            keyword={keyword}
+            index={index}
           />
         ))}
       </div>

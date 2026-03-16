@@ -28,14 +28,14 @@ export const metadata: Metadata = {
     description: "최고의 노션 템플릿을 공유하고 다운로드하세요.",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.png",
   },
 };
 
 const nanumHuman = localFont({
   src: [
-    { path: '../public/font/NanumHumanRegular.ttf', weight: '400' },
-    { path: '../public/font/NanumHumanBold.ttf', weight: '700' },
+    { path: '../public/font/NanumHumanRegular.woff2', weight: '400' },
+    { path: '../public/font/NanumHumanBold.woff2', weight: '700' },
   ],
   variable: '--font-nanum',
   display: 'swap',
@@ -43,7 +43,7 @@ const nanumHuman = localFont({
 
 const Montserrat = localFont({
   src: [
-    { path: '../public/font/Montserrat-VariableFont_wght.ttf'},
+    { path: '../public/font/Montserrat-VariableFont_wght.woff2'},
   ],
   variable: '--font-mont',
   display: 'swap',

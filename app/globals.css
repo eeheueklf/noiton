@@ -6,12 +6,6 @@
   --max-width: 1200px;
 }
 
-@font-face {
-  font-family: 'Montserrat';
-  src: url('/font/Montserrat-VariableFont_wght.ttf') format('truetype');
-  font-display: swap;
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0f1117;

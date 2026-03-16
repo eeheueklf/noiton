@@ -10,12 +10,14 @@ interface TemplateCardProps {
     template: Template;
     keyword?: string;
     showDate?: boolean;
+    index: number;
 }
 
 export function TemplateCard({
     template,
     keyword,
-    showDate = false
+    showDate = false,
+    index
 }: TemplateCardProps){
 
   const titleContent = keyword 
@@ -32,9 +34,11 @@ export function TemplateCard({
           <Image 
             src={template.thumbnail_url || "/no-img.png"} 
             alt={template.title} 
+            quality={50}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
+            sizes="(max-width: 768px) 100vw, 300px" 
             className="object-cover transition-transform duration-300 hover:scale-102"
+            priority={index < 3}
           />
         </div>
       </Link>

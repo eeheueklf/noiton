@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'ffljxuocyfwspbvkjlvy.supabase.co', // 본인의 Supabase 호스트 주소
+        hostname: 'ffljxuocyfwspbvkjlvy.supabase.co',
         port: '',
         pathname: '/storage/v1/object/public/**',
       },
