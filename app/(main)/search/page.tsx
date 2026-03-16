@@ -1,7 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { TemplateSort } from "@/components/common/TemplateSort";
 import { fetchTemplatesBySearch } from "@/features/fetchTemplatesBySearch";
-import { TemplateGrid } from "@/components/common/TemplateGrid";
+import { SearchTemplateGrid } from "@/components/(main)/search/SearchTemplateGrid";
+import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
 
 export default async function SearchPage({
   searchParams,
@@ -10,9 +11,10 @@ export default async function SearchPage({
 }) {
   const { q: keyword = "", sort = "popular" } = await searchParams;
   const supabase = await createClient();
-  const templates = keyword 
-    ? await fetchTemplatesBySearch(supabase, keyword, sort)
-    : [];
+  const [templates, recTemplates] = await Promise.all([
+    fetchTemplatesBySearch(supabase, keyword, sort),
+    fetchTemplatesByPath(supabase, undefined, 3) // 추천용 3개
+  ]);
   
   return (
     <div className="max-w-[1200px] w-full mx-auto px-6 py-16">
@@ -27,13 +29,8 @@ export default async function SearchPage({
           <TemplateSort/>
         </div>
       </header>
-      <TemplateGrid templates={templates} cols={3} keyword={keyword}/>
-      {templates.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-          <p className="text-lg font-medium">검색된 템플릿이 없어요.</p>
-          <p className="text-sm">다른 검색어를 확인해보시겠어요?</p>
-        </div>
-      )}
+
+      <SearchTemplateGrid templates={templates} keyword={keyword} recommand={recTemplates}/>
     </div>
   );
 }

@@ -45,9 +45,7 @@ export function TemplateCard({
 
       <div className="flex items-start justify-between px-1">
         <div className="flex flex-col">
-          <h3 className="text-[15px] font-bold leading-tight group-hover:underline truncate">
-            {titleContent}
-          </h3>
+          <h3 className="text-[15px] font-bold leading-tight group-hover:underline truncate">{titleContent}</h3>
           <p className="text-[13px] text-gray-500 mt-1">{subText}</p> 
         </div>
         <div className="flex items-center space-x-1 text-gray-400">
