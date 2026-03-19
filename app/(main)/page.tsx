@@ -36,7 +36,7 @@ export default async function Home() {
           title={`${config.label} 템플릿`} 
           subtitle={`${config.subtitle} 템플릿`} 
           templates={categoryDataSets[index]}
-          href={`/templates?category=${config.path}`}
+          href={`/templates/${config.path}`}
         />
       ))}
     </>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { ChevronRight } from "lucide-react"; // SVG 대신 아이콘 라이브러리로 다이어트
+import { ChevronRight } from "lucide-react";
 
 interface CategoryNavProps {
   items: { name: string; path: string }[];
@@ -19,9 +19,8 @@ export function CategoryNav({ items, basePath = "/templates" }: CategoryNavProps
           {(basePath === "/templates" || index > 0) && (
             <ChevronRight size={12} className="text-gray-300" strokeWidth={3} />
           )}
-          
           <Link 
-            href={bc.path === "#" ? "#" : `${basePath}?category=${bc.path}`}
+            href={bc.path === "#" ? "#" : `${basePath}/${bc.path}`}
             className={`hover:text-black transition-colors ${
               index === items.length - 1 ? "text-black font-medium" : ""
             }`}
