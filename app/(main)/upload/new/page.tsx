@@ -1,27 +1,24 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Image as ImageIcon, ChevronRight, X, Loader2 } from "lucide-react";
+import { Image as ImageIcon, ChevronRight, X } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { CategorySelector } from "@/components/(main)/upload/new/CategorySelector";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux"; 
+
 
 export default function NewTemplatePage() {
   const router = useRouter();
-  const { data: session } = useSession();
   const supabase = createClient();
   const fileInputRef = useRef<HTMLInputElement>(null); 
+  const { userInfo, isLoggedIn } = useSelector((state: RootState) => state.user);
   
   const [isUploading, setIsUploading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  if (!session) {
-    redirect("/login");
-  }
-
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -31,6 +28,21 @@ export default function NewTemplatePage() {
     category_id: "",
   });
 
+    
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      router.push("/login");
+    }
+  }, [isLoggedIn, router]);
+
+  if (isLoggedIn === null || (isLoggedIn && !userInfo)) {
+    return (
+        <LoadingSpinner />
+    );
+  }
+
+  if (!isLoggedIn || !userInfo) return null;
+  
   const isFormInvalid = useMemo(() => {
     const requiredFields = ['title', 'slug', 'thumbnail_url', 'description', 'notion_page_id', 'category_id'];
     return requiredFields.some(field => !formData[field as keyof typeof formData]?.trim());
@@ -79,7 +91,7 @@ export default function NewTemplatePage() {
         .from("templates")
         .select("slug")
         .eq("slug", formData.slug)
-        .single();
+        .maybeSingle();
 
       if (existingSlug) {
         alert("이미 사용 중인 URL 슬러그입니다. 다른 슬러그를 입력해주세요.");
@@ -88,7 +100,7 @@ export default function NewTemplatePage() {
 
       const { error } = await supabase.from("templates").insert([{
         ...formData,
-        creator_id: session?.user?.id
+        creator_id: userInfo.id
       }]);
 
       if (error) throw error;
@@ -103,8 +115,6 @@ export default function NewTemplatePage() {
       setIsSubmitting(false);
     }
   };
-
-  if (!session) return null;
 
 
   return (
