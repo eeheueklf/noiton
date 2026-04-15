@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, AlertTriangle, Loader2 } from "lucide-react";
+import { ChevronRight, AlertTriangle } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { createClient } from "@/utils/supabase/client";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 interface DeleteAccountProps {
   userId: string;
@@ -83,7 +84,7 @@ export default function DeleteAccount({ userId, onClose }: DeleteAccountProps) {
           onClick={handleDeleteAccount}
           className="flex-1 py-4 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-colors disabled:bg-gray-200 disabled:text-gray-400 flex items-center justify-center gap-2"
         >
-          {isDeleting ? <Loader2 className="w-5 h-5 animate-spin" /> : "영구 탈퇴"}
+          {isDeleting ? <LoadingSpinner/> : "영구 탈퇴"}
         </button>
       </div>
     </div>

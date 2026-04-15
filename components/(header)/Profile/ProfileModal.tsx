@@ -3,11 +3,12 @@
 import { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { X, Loader2 } from "lucide-react";
+import { X } from "lucide-react";
 import { useUserUpdate } from "@/features/useUserUpdate";
 import { useImageUpdate } from "@/features/useImageUpdate"; 
 import EditNameModal from "@/components/(header)/Profile/EditNameModal";
 import DeleteAccount from "@/components/(header)/Profile/DeleteAccount";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 export default function ProfileModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void;}) {
   const { updateName, updateImage } = useUserUpdate();
@@ -83,9 +84,7 @@ export default function ProfileModal({ isOpen, onClose }: { isOpen: boolean; onC
                 alt="Avatar" 
               />
               {isUpdating && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-                </div>
+                <LoadingSpinner/>
               )}
             </div>
             

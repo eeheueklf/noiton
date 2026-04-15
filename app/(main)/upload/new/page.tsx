@@ -7,6 +7,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { CategorySelector } from "@/components/(main)/upload/new/CategorySelector";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 export default function NewTemplatePage() {
   const router = useRouter();
@@ -194,7 +195,7 @@ export default function NewTemplatePage() {
                 className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center transition cursor-pointer 
                 ${isUploading ? "bg-gray-100 cursor-not-allowed" : "hover:bg-gray-50 border-gray-200"}`}
               >
-                {isUploading ? <Loader2 className="animate-spin text-gray-400" /> : <ImageIcon className="text-gray-400" />}
+                {isUploading && <LoadingSpinner/>}
                 <span className="text-sm text-gray-500 mt-2">{isUploading ? "업로드 중..." : "이미지 업로드"}</span>
               </div>
             )}
@@ -217,7 +218,7 @@ export default function NewTemplatePage() {
               disabled={isFormInvalid || isSubmitting || isUploading}
               className="px-4 py-2 bg-gray-800 text-white rounded-lg font-bold hover:bg-gray-800 transition disabled:cursor-not-allowed text-sm cursor-pointer"
             >
-              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isSubmitting && <LoadingSpinner/>}
               {isSubmitting ? "" : "템플릿 등록하기"}
             </button>
           </div>
