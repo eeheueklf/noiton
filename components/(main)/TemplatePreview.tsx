@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Template } from "@/types/template";
 import { TemplateGrid } from "@/components/common/TemplateGrid";
+import { TemplateCard } from "../common/TemplateCard";
 
 interface TemplatePreviewProps{
     title:string;
@@ -29,7 +30,18 @@ export function TemplatePreview({
                 </Link>
             )}
         </div>
-        <TemplateGrid templates={templates}/>
+        <TemplateGrid cols={3}>    
+            {templates.map((template, index) => (
+                <TemplateCard 
+                key={template.id} 
+                template={template} 
+                // showDate={showAddCard}
+                // keyword={keyword}
+                index={index}
+                />
+            ))}
+        </TemplateGrid>
+        
     </section>
   );
 }

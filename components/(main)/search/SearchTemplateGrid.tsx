@@ -32,8 +32,18 @@ export function SearchTemplateGrid({
         </div>
         {recommand.length > 0 && (
           <>
-            <h2 className="text-xl font-bold mb-8 text-gray-900">이런 템플릿은 어떠세요?</h2>
-            <TemplateGrid templates={recommand}/>
+            <h2 className="text-xl font-bold mb-8 text-gray-900">이런 템플릿은 어떠세요?</h2>   
+            <TemplateGrid cols={3}>    
+                {recommand.map((template, index) => (
+                    <TemplateCard 
+                    key={template.id} 
+                    template={template} 
+                    // showDate={showAddCard}
+                    // keyword={keyword}
+                    index={index}
+                    />
+                ))}
+            </TemplateGrid>
           </>
         )}
       </div>
@@ -41,6 +51,16 @@ export function SearchTemplateGrid({
   }
 
   return (
-    <TemplateGrid templates={templates} keyword={keyword}/>
+    <TemplateGrid cols={3}>    
+        {templates.map((template, index) => (
+            <TemplateCard 
+            key={template.id} 
+            template={template} 
+            // showDate={showAddCard}
+            keyword={keyword}
+            index={index}
+            />
+        ))}
+    </TemplateGrid>
   );
 }

@@ -6,10 +6,7 @@ import { fetchTemplateBySlug } from "@/features/fetchTemplateBySlug";
 import { fetchLikeBySlug } from "@/features/fetchLikeBySlug";
 import LikeWrapper from "@/components/(main)/template/LikeWrapper";
 import DownloadButton from "@/components/(main)/template/DownloadButton";
-import DeleteButton from "@/components/(main)/template/DeleteButton";
 
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 
 export default async function TemplateDetail({ 
     params 
@@ -18,7 +15,6 @@ export default async function TemplateDetail({
 }) {
     const { slug } = await params;
     const supabase = await createClient();
-    const { userInfo } = useSelector((state: RootState) => state.user);
 
     const [template, initialIsLiked] = await Promise.all([
         fetchTemplateBySlug(supabase, slug),
@@ -36,7 +32,6 @@ export default async function TemplateDetail({
                     <h1 className="text-3xl font-bold tracking-tight group-hover:underline">
                     {template.title}
                     </h1>
-                    <DeleteButton userId={template.creator.id} templateId={template.id}/>
                 </div>
                 <p className="text-[13px] text-gray-500 mt-1">
                     {template.creator.name || "Unknown Creator"}
