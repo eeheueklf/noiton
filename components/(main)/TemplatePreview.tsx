@@ -35,8 +35,6 @@ export function TemplatePreview({
                 <TemplateCard 
                 key={template.id} 
                 template={template} 
-                // showDate={showAddCard}
-                // keyword={keyword}
                 index={index}
                 />
             ))}

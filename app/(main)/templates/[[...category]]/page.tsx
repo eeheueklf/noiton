@@ -1,6 +1,4 @@
 import { createClient } from "@/utils/supabase/server";
-import { notFound } from "next/navigation";
-
 import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
 import { CategoryTag } from "@/components/(main)/templates/CategoryTag";
 import { fetchCategory } from "@/features/fetchCategory";
