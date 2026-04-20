@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 
 
 const HomeSearchBar = dynamic(() => 
-    import("@/components/(main)/search/SearchBar").then(mod => mod.HomeSearchBar), 
+    import("@/features/search/components/SearchBar").then(mod => mod.HomeSearchBar), 
     { 
         ssr: true, 
         loading: () => <div className="h-[46px] w-full max-w-[320px] mx-auto bg-[#f5f5f5] rounded-full animate-pulse" /> 
