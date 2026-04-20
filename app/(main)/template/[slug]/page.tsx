@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 
 import { fetchTemplateBySlug } from "@/features/fetchTemplateBySlug";
 import { fetchLikeBySlug } from "@/features/fetchLikeBySlug";
-import LikeWrapper from "@/components/(main)/template/LikeWrapper";
-import DownloadButton from "@/components/(main)/template/DownloadButton";
+import LikeButton from "@/features/template/components/LikeButton";
+import DownloadButton from "@/features/template/components/DownloadButton";
 
 
 export default async function TemplateDetail({ 
@@ -39,7 +39,7 @@ export default async function TemplateDetail({
                 </div>
                 <div className="flex items-center space-x-1 text-gray-400">
                     {/* 하트버튼 */}
-                    <LikeWrapper templateId={template.id} initialIsLiked={initialIsLiked} />
+                    <LikeButton templateId={template.id} initialIsLiked={initialIsLiked} />
                     {/* 복제 버튼 */}
                     <DownloadButton url={template.notion_page_id} templateId={template.id}/>
                     
