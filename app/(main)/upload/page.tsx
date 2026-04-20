@@ -10,7 +10,7 @@ import { TemplateGrid } from "@/components/common/TemplateGrid";
 import { TemplateSort } from "@/components/common/TemplateSort";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import TemplateList from "@/components/(main)/upload/TemplateList";
+import TemplateList from "@/features/upload/components/TemplateList";
 
 interface UploadPageProps {
   searchParams: Promise<{ sort?: string }>;

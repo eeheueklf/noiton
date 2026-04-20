@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Image as ImageIcon, ChevronRight, X } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { redirect } from "next/navigation";
-import { CategorySelector } from "@/components/(main)/upload/new/CategorySelector";
+import { CategorySelector } from "@/features/upload/new/CategorySelector";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux"; 
