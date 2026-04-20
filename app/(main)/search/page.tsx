@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { TemplateSort } from "@/components/common/TemplateSort";
 import { fetchTemplatesBySearch } from "@/features/fetchTemplatesBySearch";
-import { SearchTemplateGrid } from "@/components/(main)/search/SearchTemplateGrid";
+import { SearchTemplateGrid } from "@/features/search/components/SearchTemplateGrid";
 import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
 
 export default async function SearchPage({

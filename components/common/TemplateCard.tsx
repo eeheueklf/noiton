@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from 'next/image'
 import { Template } from "@/types/template";
 import { formatRelativeDate } from "@/lib/utils"
-import { HighlightText } from "@/components/(main)/search/HighlightText";
+import { HighlightText } from "@/features/search/components/HighlightText";
 import { Copy } from "lucide-react";
 import { LikeStatus } from "../(main)/LikeStatus";
 
