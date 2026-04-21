@@ -2,23 +2,37 @@ import { createClient } from "@/utils/supabase/server";
 import { TemplatePreview } from "@/components/(main)/TemplatePreview";
 import { fetchTemplatesByPath } from "@/features/fetchTemplatesByPath";
 import { HomeVisual } from "@/components/(main)/HomeVisual";
+import { Template } from "@/types/template";
+
+const MAIN_TEMPLATES_LIMIT = 3;
+// TODO: 이외 카테고리는 템플릿 데이터가 들어오면 확장
+const CATEGORY_CONFIG = [
+  { path: "personal", label: "개인 관련", subtitle: "일상을 기록하는" },
+  { path: "education", label: "학업 관련", subtitle: "효율적으로 관리하는" },
+] as const;
 
 export default async function Home() {
   const supabase = await createClient();
 
-  const CATEGORY_CONFIG = [
-    { path: "personal", label: "개인 관련", subtitle: "일상을 기록하는" },
-    { path: "education", label: "학업 관련", subtitle: "효율적으로 관리하는" },
-    { path: "work", label: "업무 관련", subtitle: "생산성을 높여주는" },
-    { path: "money", label: "자산 관리", subtitle: "똑똑하게 모으는" },
-    { path: "interest", label: "취미/관심", subtitle: "취미 기록용" },
-  ];
+  let popularTemplates: Template[] = [];
+  let categoryTemplates: Template[][] = []; 
 
-  const [popularTemplates, ...categoryDataSets] = await Promise.all([
-    fetchTemplatesByPath(supabase, undefined, 3),
-    ...CATEGORY_CONFIG.map((cat) => fetchTemplatesByPath(supabase, cat.path, 3)),
+  const data = await Promise.allSettled([
+    fetchTemplatesByPath(supabase, undefined, MAIN_TEMPLATES_LIMIT),
+    ...CATEGORY_CONFIG.map((category) => 
+      fetchTemplatesByPath(supabase, category.path, MAIN_TEMPLATES_LIMIT)
+    ),
   ]);
-
+  data.forEach((item,index)=>{
+    if(item.status==='rejected'){
+      console.error(`템플릿 fetch 실패: index ${index}`, item.reason);
+    }
+  })
+  popularTemplates = data[0].status === 'fulfilled' ? data[0].value : [];
+  categoryTemplates = data.slice(1).map((item) => 
+    item.status === 'fulfilled' ? item.value : []
+  );
+  
   return (
     <>
       <HomeVisual/>
@@ -30,13 +44,13 @@ export default async function Home() {
         href="/templates?sort=popular"
       />
 
-      {CATEGORY_CONFIG.map((config, index) => (
+      {CATEGORY_CONFIG.map(({path, label, subtitle}, index) => (
         <TemplatePreview 
-          key={config.path}
-          title={`${config.label} 템플릿`} 
-          subtitle={`${config.subtitle} 템플릿`} 
-          templates={categoryDataSets[index]}
-          href={`/templates/${config.path}`}
+          key={path}
+          title={`${label}`} 
+          subtitle={`${subtitle}`} 
+          templates={categoryTemplates[index]}
+          href={`/templates/${path}`}
         />
       ))}
     </>

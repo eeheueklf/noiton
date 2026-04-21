@@ -20,8 +20,8 @@ export function TemplatePreview({
     <section className="max-w-[1200px] w-full mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
-            <h2 className="text-[20px] font-bold tracking-tight">{title}</h2>
-            <span className="hidden sm:block text-[13px] text-gray-400 font-medium">{subtitle}</span>
+            <h2 className="text-[20px] font-bold tracking-tight">{title} 템플릿</h2>
+            <span className="hidden sm:block text-[13px] text-gray-400 font-medium">{subtitle} 템플릿</span>
             </div>
             {href && (
                 <Link href={href} className="group flex items-center text-[14px] font-bold text-[#E1C198] hover:text-[#866837] transition-colors gap-1">
