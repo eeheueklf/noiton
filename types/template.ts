@@ -6,6 +6,11 @@ export interface Category {
   id : string;
   name? : string;
 }
+export interface CategoryDetail extends Category{
+  path: string;
+  parent_id: string | null;
+  level: number;
+}
 export interface Template {
   id: string;
   title: string;

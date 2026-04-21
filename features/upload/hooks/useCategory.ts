@@ -1,18 +1,11 @@
 
 import { useEffect, useState, useMemo } from "react";
-import { createClient } from "@/utils/supabase/client";
-
-interface Category {
-  id: string;
-  name: string;
-  path: string;
-  parent_id: string | null;
-  level: number;
-}
+import { templateService } from "../services/templateService";
+import { CategoryDetail } from "@/types/template";
 
 export function useCategory(){
-    const supabase = createClient();
-    const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [allCategories, setAllCategories] = useState<CategoryDetail[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedLevels, setSelectedLevels]= useState({
         lvl1:"",
         lvl2: "",
@@ -20,15 +13,21 @@ export function useCategory(){
     })
 
     useEffect(() => {
-        const fetchCats = async () => {
-        const { data } = await supabase
-            .from("categories")
-            .select("id, name, path, parent_id, level")
-            .order("name");
-        if (data) setAllCategories(data);
+        let isMounted = true;
+        const loadCategories = async () => {
+            try {
+                const data = await templateService.fetchCategories();
+                if (isMounted && data) setAllCategories(data);
+            } catch (error) {
+                console.error("카테고리 로딩 실패:", error);
+            } finally {
+                if(isMounted) setIsLoading(false);
+            }
         };
-        fetchCats();
+        loadCategories();
+        return () => { isMounted = false; }; 
     }, []);
+    
 
     const options = useMemo(()=> ({
         level1: allCategories.filter((c) => c.level === 1),
@@ -50,6 +49,7 @@ export function useCategory(){
 
     return{
         options,
+        isLoading,
         selectedLevels,
         selectLevel1,
         selectLevel2,

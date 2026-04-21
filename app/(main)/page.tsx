@@ -49,7 +49,7 @@ export default async function Home() {
           key={path}
           title={`${label}`} 
           subtitle={`${subtitle}`} 
-          templates={categoryTemplates[index]}
+          templates={categoryTemplates[index] ?? []}
           href={`/templates/${path}`}
         />
       ))}
