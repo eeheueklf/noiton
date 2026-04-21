@@ -1,12 +1,17 @@
 import Link from "next/link";
 
-export function CategoryTag({ 
-  items, 
-  currentPath 
-}: { 
-  items: { name: string; slug: string }[]; 
-  currentPath: string 
-}) {  if (items.length === 0) return null;
+interface CategoryItem {
+  name: string;
+  slug: string;
+}
+
+interface CategoryTagProps {
+  items: CategoryItem[]; 
+  currentPath: string;
+}
+
+export function CategoryTag({ items, currentPath }: CategoryTagProps) {  
+  if (items.length === 0) return null;
   return (
     <div className="flex flex-wrap gap-2 mb-2">
       {items.map((sub) => {

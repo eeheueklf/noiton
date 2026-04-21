@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { fetchTemplatesByUser } from "@/features/fetchTemplatesByUser";
-import { CategoryNav } from "@/components/(main)/templates/CategoryNav";
+import { CategoryNav } from "@/features/templates/components/CategoryNav";
 import { TemplateCard } from "@/components/common/TemplateCard";
 import { TemplateGrid } from "@/components/common/TemplateGrid";
 import { TemplateSort } from "@/components/common/TemplateSort";

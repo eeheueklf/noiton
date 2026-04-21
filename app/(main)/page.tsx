@@ -38,8 +38,8 @@ export default async function Home() {
       <HomeVisual/>
 
       <TemplatePreview 
-        title="인기 템플릿" 
-        subtitle="가장 많이 찾는 템플릿" 
+        title="인기" 
+        subtitle="가장 많이 찾는" 
         templates={popularTemplates} 
         href="/templates?sort=popular"
       />
