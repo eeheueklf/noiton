@@ -49,10 +49,10 @@ export function useCategory(){
 
     return{
         options,
-        isLoading,
         selectedLevels,
         selectLevel1,
         selectLevel2,
         selectLevel3,
+        isLoading,
     }
 }
